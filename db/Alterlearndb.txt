@@ -1,0 +1,216 @@
+CREATE DATABASE alterlearn;
+USE alterlearn; 
+
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT,
+    nombre_usuario VARCHAR(50),
+    correo_electronico VARCHAR(45) UNIQUE,
+    contrasenia VARCHAR(50),
+    PRIMARY KEY (id_usuario)
+);
+
+CREATE TABLE Asignatura (
+    id_asignatura INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_asignatura VARCHAR(65) NOT NULL UNIQUE
+);
+
+CREATE TABLE Administrador (
+    id_administrador INT AUTO_INCREMENT,
+    nombre_admin VARCHAR(50),
+    correo_admin VARCHAR(45) UNIQUE,
+    contrasenia VARCHAR(50),
+    PRIMARY KEY (id_administrador)
+);
+
+CREATE TABLE Recurso (
+    id_recurso INT AUTO_INCREMENT,
+    precio INT,
+    control VARCHAR(65),
+    certamen_con_sol VARCHAR(65),
+    certamen_sin_sol VARCHAR(65),
+    tarea VARCHAR(65),
+    profesor VARCHAR(40),
+    id_asignatura INT, -- Cambiado a ID para referencia
+    PRIMARY KEY (id_recurso),
+    FOREIGN KEY (id_asignatura) REFERENCES Asignatura(id_asignatura) ON DELETE CASCADE ON UPDATE CASCADE
+);
+ 
+CREATE TABLE PublicaCompra (
+    id_usuario INT,
+    id_recurso INT,
+    id_compra_publicacion INT AUTO_INCREMENT,
+    fecha_compra DATE,
+    fecha_publicacion DATE,
+    PRIMARY KEY (id_compra_publicacion),
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_recurso) REFERENCES Recurso(id_recurso) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE Supervisado (
+    id_administrador INT,
+    id_recurso INT,
+    id_supervisado INT AUTO_INCREMENT,
+    aprobacion BOOLEAN,
+    PRIMARY KEY (id_supervisado),
+    FOREIGN KEY (id_administrador) REFERENCES Administrador(id_administrador) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_recurso) REFERENCES Recurso(id_recurso) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- INSERCCION
+
+INSERT INTO administrador (nombre_admin, correo_admin, contrasenia) 
+VALUES 
+('Ana Perez', 'ana.perez@admin.com', 'Ana2023*'),
+('Luis Fernández', 'luis.fernandez@admin.com', 'Luis!45'),
+('Maria Lopez', 'maria.lopez@admin.com', 'Maria$99'),
+('Carlos Ruiz', 'carlos.ruiz@admin.com', 'C@rlos22'),
+('Isabel Ortega', 'isabel.ortega@admin.com', 'IsaB3l2023'),
+('Pedro Gomez', 'pedro.gomez@admin.com', 'P3dro_45'),
+('Laura Marquez', 'laura.marquez@admin.com', 'L@uraM7'),
+('David Jimenez', 'david.jimenez@admin.com', 'D@vid#32'),
+('Sara Castro', 'sara.castro@admin.com', 'S@ra2024'),
+('Jose Sanchez', 'jose.sanchez@admin.com', 'J0se$98');
+
+INSERT INTO asignatura (nombre_asignatura) 
+VALUES 
+('Matemáticas'),
+('Física'),
+('Química'),
+('Biología'),
+('Historia del Arte'),
+('Lengua Española'),
+('Geografía'),
+('Informática'),
+('Economía'),
+('Música Clásica');
+
+INSERT INTO usuario (nombre_usuario, correo_electronico, contrasenia) 
+VALUES 
+('Juan Perez', 'juan.perez@gmail.com', 'JuaN2024!'),
+('Carla Rodriguez', 'carla.rodriguez@yahoo.com', 'Carla*99'),
+('Santiago Luna', 'santiago.luna@hotmail.com', 'Santi123_'),
+('Fernanda Diaz', 'fernanda.diaz@outlook.com', 'F3rnanD@'),
+('Miguel Torres', 'miguel.torres@mail.com', 'Miguel2023!'),
+('Lucia Moreno', 'lucia.moreno@live.com', 'LuM#45'),
+('Pablo Rivas', 'pablo.rivas@gmail.com', 'P@blo88'),
+('Andrea Ruiz', 'andrea.ruiz@gmail.com', 'A.ndrea2022'),
+('Roberto Martinez', 'roberto.martinez@gmail.com', 'Roberto2020@'),
+('Victoria Reyes', 'victoria.reyes@gmail.com', 'V!ctoria97');
+
+INSERT INTO recurso (precio, control, certamen_con_sol, certamen_sin_sol, tarea, profesor, id_asignatura) 
+VALUES 
+(2000, 'Control Matematicas 1', 'Certamen Matematicas 1', 'Certamen Matematicas 2', 'Tarea Algebra', 'Prof. Martin Vega', 1),
+(4000, 'Control Fisica 1', 'Certamen Fisica 1', 'Certamen Fisica 2', 'Tarea Física I', 'Prof. Elena Robles', 2),
+(2000, 'Control Quimica 1', 'Certamen Quimica 1', 'Certamen Quimica 2', 'Tarea Química Orgánica', 'Prof. Alberto Sánchez', 3),
+(2000, 'Control Biología 1', 'Certamen Biología 1', 'Certamen Biología 2', 'Tarea Genética', 'Prof. Javier Torres', 4),
+(1000, 'Control Arte 1', 'Certamen Arte 1', 'Certamen Arte 2', 'Tarea Renacimiento', 'Prof. Laura Fernández', 5),
+(1000, 'Control Lengua 1', 'Certamen Lengua 1', 'Certamen Lengua 2', 'Tarea Gramática', 'Prof. Carmen López', 6),
+(1000, 'Control Geografía 1', 'Certamen Geografía 1', 'Certamen Geografía 2', 'Tarea Geografía Humana', 'Prof. Julio Paredes', 7),
+(3000, 'Control Informática 1', 'Certamen Informática 1', 'Certamen Informática 2', 'Tarea Programación', 'Prof. Roberto Iglesias', 8),
+(2000, 'Control Economía 1', 'Certamen Economía 1', 'Certamen Economía 2', 'Tarea Microeconomía', 'Prof. Alicia Ortega', 9),
+(1000, 'Control Música 1', 'Certamen Música 1', 'Certamen Música 2', 'Tarea Teoría Musical', 'Prof. Daniel Castro', 10);
+
+INSERT INTO publicacompra (id_usuario, id_recurso, fecha_compra, fecha_publicacion) 
+VALUES 
+(1, 1, '2024-01-10', '2024-01-11'),
+(2, 2, '2024-02-12', '2024-02-13'),
+(3, 3, '2024-03-14', '2024-03-15'),
+(4, 4, '2024-04-16', '2024-04-17'),
+(5, 5, '2024-05-18', '2024-05-19'),
+(6, 6, '2024-06-20', '2024-06-21'),
+(7, 7, '2024-07-22', '2024-07-23'),
+(8, 8, '2024-08-24', '2024-08-25'),
+(9, 9, '2024-09-26', '2024-09-27'),
+(10, 10, '2024-10-28', '2024-10-29');
+
+INSERT INTO supervisado (id_administrador, id_recurso, aprobacion) 
+VALUES 
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(4, 4, 1),
+(5, 5, 0),
+(6, 6, 1),
+(7, 7, 0),
+(8, 8, 1),
+(9, 9, 1),
+(10, 10, 0);
+
+-- CONSULTAS
+--1. ALTER
+	--1.1. Agregar una columna a la tabla Usuario
+ALTER TABLE Usuario ADD COLUMN fecha_creacion DATE DEFAULT CURRENT_DATE;
+
+	--1.2. Cambiar el tipo de datos de la columna correo_electronico en Usuario
+ALTER TABLE Usuario MODIFY COLUMN correo_electronico VARCHAR(50);
+
+--2. SELECT
+	--2.1. Seleccionar todos los usuarios con información adicional de sus compras (JOIN)
+		SELECT u.nombre_usuario, pc.fecha_compra, r.control
+		FROM Usuario u
+		JOIN PublicaCompra pc ON u.id_usuario = pc.id_usuario
+		JOIN Recurso r ON pc.id_recurso = r.id_recurso;
+		
+		Algebra Relacional:
+		πnombre_usuario,fecha_compra,control(Usuario⋈PublicaCompra⋈Recurso)
+
+	--2.2. Seleccionar todos los recursos junto a sus asignaturas (JOIN)
+		SELECT r.*, a.nombre_asignatura
+		FROM Recurso r
+		JOIN Asignatura a ON r.nombre_asignatura = a.nombre_asignatura;
+
+		Algebra Relacional:
+		π∗,nombre_asignatura(Recurso⋈Asignatura)
+	
+
+	--2.3. Contar el total de recursos por asignatura
+		SELECT nombre_asignatura, COUNT(*) AS total_recursos
+		FROM Recurso
+		GROUP BY nombre_asignatura;
+
+		Algebra Relacional:
+		γnombre_asignatura,COUNT(∗)→total_recurdos(Recurso)
+
+--3. UPDATE
+	--3.1. Actualizar el precio de un recurso específico
+		UPDATE Recurso
+		SET precio = 2500
+		WHERE id_recurso = 1;  -- Cambia el ID según sea necesario
+
+	--3.2. Cambiar la contraseña de un usuario
+		UPDATE Usuario
+		SET contrasenia = 'NuevaContraseña123!'
+		WHERE id_usuario = 2;  -- Cambia el ID según sea necesario
+--4. INSERT
+	--4.1. Insertar un nuevo administrador
+		INSERT INTO Administrador (id_administrador, nombre_admin, correo_admin, contrasenia)
+		VALUES (11, 'José Torres', 'jose.torres@admin.com', 'Jose2023*');
+	
+	--4.2. Insertar un nuevo recurso
+		INSERT INTO Recurso (precio, control, certamen_con_sol, certamen_sin_sol, tarea, profesor, nombre_asignatura)
+		VALUES (1500, 'Control Matemáticas 2', 'Certamen Matemáticas 3', 'Certamen Matemáticas 4', 'Tarea Trigonometría', 'Prof. Elena Robles', 'Matemáticas');
+	
+	--4.3. Insertar un nuevo usuario
+		INSERT INTO Usuario (nombre_usuario, correo_electronico, contrasenia)
+		VALUES ('Camila Soto', 'camila.soto@gmail.com', 'Cami2024!');
+
+--5. DELETE
+	--5.1. Eliminar un recurso específico
+		DELETE FROM Recurso
+		WHERE id_recurso = 10;  -- Cambia el ID según sea necesario
+
+	--5.2. Eliminar un administrador específico
+		DELETE FROM Administrador
+		WHERE id_administrador = 5;  -- Cambia el ID según sea necesario
+
+--6. DROP
+	--6.1. Eliminar la tabla Supervisado
+		--DROP TABLE IF EXISTS Supervisado;
+
+
+-- RESPALDAR 
+-- mysqldump -u root -p alterlearn > C:\Users\Max\Downloads\Proyectos\BD15proy\E2\Alterlearn3\db\respaldoLeo.sql
+
+-- CREAR
+-- mysql -u root -p alterlearn < C:\Users\Max\Downloads\Proyectos\BD15proy\E2\Alterlearn3\db\respaldoLeo.sql
+
