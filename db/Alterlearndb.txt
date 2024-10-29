@@ -3,7 +3,7 @@ USE alterlearn;
 
 CREATE TABLE Usuario (
     id_usuario INT AUTO_INCREMENT,
-    nombre_usuario VARCHAR(50),
+    nombre_usuario VARCHAR(50) UNIQUE,
     correo_electronico VARCHAR(45) UNIQUE,
     contrasenia VARCHAR(50),
     PRIMARY KEY (id_usuario)
@@ -16,7 +16,7 @@ CREATE TABLE Asignatura (
 
 CREATE TABLE Administrador (
     id_administrador INT AUTO_INCREMENT,
-    nombre_admin VARCHAR(50),
+    nombre_admin VARCHAR(50) UNIQUE,
     correo_admin VARCHAR(45) UNIQUE,
     contrasenia VARCHAR(50),
     PRIMARY KEY (id_administrador)
