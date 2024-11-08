@@ -5,21 +5,15 @@ CREATE TABLE Usuario (
     id_usuario INT AUTO_INCREMENT,
     nombre_usuario VARCHAR(50) UNIQUE,
     correo_electronico VARCHAR(45) UNIQUE,
-    contrasenia VARCHAR(50),
+    contrasenia VARCHAR(50),        -- Contraseña de usuario normal
+    isAdmin TINYINT DEFAULT 0,      -- Determina si el usuario es admin (0 = no admin, 1 = admin)
+    admin_key VARCHAR(50),     -- Contraseña especial para admins
     PRIMARY KEY (id_usuario)
 );
 
 CREATE TABLE Asignatura (
     id_asignatura INT AUTO_INCREMENT PRIMARY KEY,
     nombre_asignatura VARCHAR(65) NOT NULL UNIQUE
-);
-
-CREATE TABLE Administrador (
-    id_administrador INT AUTO_INCREMENT,
-    nombre_admin VARCHAR(50) UNIQUE,
-    correo_admin VARCHAR(45) UNIQUE,
-    contrasenia VARCHAR(50),
-    PRIMARY KEY (id_administrador)
 );
 
 CREATE TABLE Recurso (
@@ -57,6 +51,24 @@ CREATE TABLE Supervisado (
 );
 
 -- INSERCCION
+
+INSERT INTO Usuario (nombre_usuario, correo_electronico, contrasenia, isAdmin, admin_key)
+VALUES 
+('noobmaster69', 'noobmaster69@alumnos.uv.cl', 'contrasenia123', 0, NULL),
+('gamerXtreme88', 'gamerXtreme88@alumnos.uv.cl', 'gamerpass456', 0, NULL),
+('killerNinja47', 'killerNinja47@alumnos.uv.cl', 'ninjaPass789', 1, 'adminPassForKiller47'),
+('shadowDragon24', 'shadowDragon24@alumnos.uv.cl', 'dragonPass101', 0, NULL),
+('supernovaX12', 'supernovaX12@alumnos.uv.cl', 'supernovaPass101', 0, NULL),
+('theChosenOne99', 'theChosenOne99@alumnos.uv.cl', 'chosenPass999', 1, 'adminKeyForChosenOne'),
+('speedyGonzalez77', 'speedyGonzalez77@alumnos.uv.cl', 'speedyPass202', 0, NULL),
+('darkKnight56', 'darkKnight56@alumnos.uv.cl', 'darkPass666', 1, 'adminKeyDarkKnight'),
+('megaManX44', 'megaManX44@alumnos.uv.cl', 'megaPass333', 0, NULL),
+('silentAssassin35', 'silentAssassin35@alumnos.uv.cl', 'silentPass888', 0, NULL),
+('cyberStorm18', 'cyberStorm18@alumnos.uv.cl', 'cyberPass555', 1, 'adminStormPass'),
+('mysticSorcerer77', 'mysticSorcerer77@alumnos.uv.cl', 'mysticPass444', 0, NULL),
+('aceOfSpades10', 'aceOfSpades10@alumnos.uv.cl', 'acePass2020', 0, NULL),
+('flashLightning22', 'flashLightning22@alumnos.uv.cl', 'flashPass3333', 0, NULL),
+('phoenixRising60', 'phoenixRising60@alumnos.uv.cl', 'phoenixPass9999', 1, 'phoenixAdminPass');
 
 INSERT INTO administrador (nombre_admin, correo_admin, contrasenia) 
 VALUES 
