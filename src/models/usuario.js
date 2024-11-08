@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 const UsuarioSchema = new mongoose.Schema(
   {
-    name: { type: String, trim: true, unique: true },
+    name: { type: String, required: true, unique: true, trim: true },
     email: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false },        // Campo para determinar si el usuario es administrador
