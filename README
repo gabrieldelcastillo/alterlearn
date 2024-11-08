@@ -1,4 +1,4 @@
-// Instalar Node.js
+// Comandos Node.js
 npm i express
 npm i nodemon -D
 npm i mysql2
@@ -12,5 +12,5 @@ git remote add origin git@github.com:gabrieldelcastillo/alterlearn.git
 git push origin main
 
 // Next.js en local
-npx create-next-app@latest [nombre_proyecto] //Crea un proyecto Next.js en el directorio actual
+npx create-next-app@latest [nombre_proyecto] // Crea un proyecto Next.js en el directorio actual
 npm run dev // Ejecuta el proyecto en local
