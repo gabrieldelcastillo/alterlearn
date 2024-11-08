@@ -1,56 +1,61 @@
 import User from "../models/usuario.js";
 import passport from "passport";
 
-export const renderSignUpForm = (req, res) => res.render("auth/signup");
-
 export const signup = async (req, res) => {
   let errors = [];
-  const { name, email, password, confirm_password } = req.body;
-  if (password !== confirm_password) {
-    errors.push({ text: "Passwords do not match." });
-  }
+  const { name, email, password } = req.body;
 
   if (password.length < 4) {
-    errors.push({ text: "Passwords must be at least 4 characters." });
+    errors.push({ text: "La contraseña debe tener al menos 4 caracteres" });
   }
 
   if (errors.length > 0) {
-    return res.render("auth/signup", {
-      errors,
-      name,
-      email,
-      password,
-      confirm_password,
-    });
+    return res.status(400).json({ success: false, errors });
   }
 
-  // confirmar existencia de correo
-  const userFound = await User.findOne({ email: email });
+  const emailFound = await User.findOne({ email: email });
+  if (emailFound) {
+    return res.status(400).json({ success: false, message: "El correo ya esta en uso." });
+  }
+
+  const userFound = await User.findOne({ name: name });
   if (userFound) {
-    req.flash("error_msg", "The Email is already in use.");
-    return res.redirect("/auth/signup");
+    return res.status(400).json({ success: false, message: "El nombre de usuario ya esta en uso." });
   }
 
   // guardar el nuevo usuario
   const newUser = new User({ name, email, password });
   newUser.password = await newUser.encryptPassword(password);
-  await newUser.save();
-  req.flash("success_msg", "You are registered.");
-  res.redirect("/auth/signin");
+  await newUser.save(); 
+  res.status(201).json({ success: true, message: "Se ha registrado de maenra exitosa" });
 };
 
-export const renderSigninForm = (req, res) => res.render("auth/signin");
+export const signin = async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Server error." });
+    }
 
-export const signin = passport.authenticate("local", {
-  successRedirect: "/notes",
-  failureRedirect: "/auth/signin",
-  failureFlash: true,
-});
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Invalid credentials." });
+    }
+
+    req.logIn(user, (err) => {
+      if (err) {
+        return res.status(500).json({ success: false, message: "falla en logearse." });
+      }
+      
+      return res.status(200).json({ success: true, message: "Logeo exitoso", user });
+    });
+  })(req, res, next);
+};
+
 
 export const logout = async (req, res, next) => {
   await req.logout((err) => {
-    if (err) return next(err);
-    req.flash("success_msg", "You are logged out now.");
-    res.redirect("/auth/signin");
+    if (err) {
+      return res.status(500).json({ success: false, message: "Failed to log out." });
+    }
+    res.status(200).json({ success: true, message: "You are logged out now." });
   });
 };

@@ -1,10 +1,38 @@
 npm i express
 npm i nodemon -D
+npm i mongoose 
+npm i passport //autentifica usuario
+npm i passport-local 
+npm i method-override //comunicacion con el front
 npm i mysql2
-npm i dotenv
+npm i handlebars
+npm i npm-check-updates -D
+npm i bcryptjs //encripatacion de contraseñas
+npm i express-handlebars
+npm i dotenv -D
+npm i express-session
+npm i connect-flash
+npm i morgan
+npm i connect-mongo
+
+instalar node
+instalar mongoDB
+https://www.mongodb.com/try/download/community
+instalar en la opcion completa, no custom
+destiquear la opcion de instalar como servicio (para mas claridad, la casilla no debe quedar marcada)
+
+
 
 git init
 git add .
 git commit -m "comentario"
 git remote add origin git@github.com:gabrieldelcastillo/alterlearn.git
 git push origin main
+
+npx create-next-app@latest nombre
+npm run dev
+
+git checkout -b Registro-logeo
+git push -u origin registro-logeo
+git branch -m nombre-antiguo nombre-nuevo
+git branch -m Registro-logeo registro-logeo
