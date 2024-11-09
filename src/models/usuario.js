@@ -39,4 +39,4 @@ UsuarioSchema.methods.promoteToAdmin = async function (newAdminPassword) {
   return await this.save();
 };
 
-export default mongoose.model("Usuario", UserSchema);
+export default mongoose.model("Usuario", UsuarioSchema);
