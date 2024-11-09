@@ -1,3 +1,4 @@
+// Comandos Node.js
 npm i express
 npm i nodemon -D
 npm i mongoose 
@@ -23,16 +24,9 @@ destiquear la opcion de instalar como servicio (para mas claridad, la casilla no
 
 
 
+// Subir cambios al repositorio
 git init
 git add .
 git commit -m "comentario"
 git remote add origin git@github.com:gabrieldelcastillo/alterlearn.git
 git push origin main
-
-npx create-next-app@latest nombre
-npm run dev
-
-git checkout -b Registro-logeo
-git push -u origin registro-logeo
-git branch -m nombre-antiguo nombre-nuevo
-git branch -m Registro-logeo registro-logeo
