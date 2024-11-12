@@ -1,24 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function Search() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            {/* Header */}
-            <header style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ccc' }}>
-                <h1 style={{ margin: 0 }}>Alterlearn</h1>
-                <div style={{ flex: 1, maxWidth: '500px', margin: '0 20px' }}>
-                    <input type="text" placeholder="Buscar Recurso" style={{ width: '100%', padding: '10px' }} />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <button style={{ marginRight: '20px' }}>Perfil</button>
-                    <Link href="/cart">
-                        <button>Cart (0)</button>
-                    </Link>
-                </div>
-            </header>
-
-            {/* Main Content */}
             <div style={{ display: 'flex', flex: 1, padding: '20px' }}>
                 {/* Sidebar - Filtros */}
                 <aside style={{ width: '250px', paddingRight: '20px', borderRight: '1px solid #ccc' }}>
@@ -80,13 +66,7 @@ export default function Search() {
                 </main>
             </div>
 
-            {/* Footer */}
-            <footer style={{ padding: '20px', textAlign: 'center', borderTop: '1px solid #ccc', display: 'flex', justifyContent: 'space-evenly' }}>
-                <button>Perfil</button>
-                <button>Contactos</button>
-                <button>Compras</button>
-                <button>Ayuda</button>
-            </footer>
+            <Footer/>
         </div>
     );
 }
