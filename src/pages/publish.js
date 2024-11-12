@@ -1,21 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function Publish() {
     return (
         <div style={{ padding: '20px' }}>
-            {/* Header */}
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '20px', borderBottom: '1px solid #ccc' }}>
-                <h1>Alterlearn</h1>
-                <div>
-                    <button>Profile</button>
-                    <Link href="/cart">
-                        <button>Cart (0)</button>
-                    </Link>
-                </div>
-            </header>
-
-            {/* Main content */}
             <main style={{ display: 'flex', marginTop: '20px' }}>
                 {/* Left section for file upload and image previews */}
                 <section style={{ flex: 1, marginRight: '20px' }}>
@@ -63,13 +52,7 @@ export default function Publish() {
                 </section>
             </main>
 
-            {/* Footer section */}
-            <footer style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', padding: '20px 0', borderTop: '1px solid #ccc', marginTop: '20px' }}>
-                <button>Perfil</button>
-                <button>Contactos</button>
-                <button>Compras</button>
-                <button>Ayuda</button>
-            </footer>
+            <Footer/>
         </div>
     );
 }

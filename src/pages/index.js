@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { parsePagesSegmentConfig } from 'next/dist/build/segment-config/pages/pages-segment-config';
+import Footer from '../components/Footer';
 
 export default function Acceso() {
   const [isRegister, setIsRegister] = useState(true);
@@ -21,19 +22,16 @@ export default function Acceso() {
     if(username === 'admin' && password === '1234') {
       router.push("/admin");
     }
-    router.push('/init'); // Redirige a la página de inicio
+    router.push('/search'); // Redirige a la página de inicio
   };
 
   return (
     <div style={styles.container}>
-      {/* Imagen a la izquierda */}
       <div style={styles.imageContainer}>
         <img src="/access-image.jpg" alt="Access" style={styles.image} />
       </div>
 
-      {/* Sección derecha con el interruptor y los botones */}
       <div style={styles.formContainer}>
-        {/* Interruptor */}
         <div style={styles.switchContainer}>
           <button
             style={{ ...styles.switchButton, backgroundColor: isRegister ? '#4caf50' : '#ddd' }}
@@ -49,7 +47,6 @@ export default function Acceso() {
           </button>
         </div>
 
-        {/* Contenido según el estado del interruptor */}
         {isRegister ? (
           <div style={styles.formContent}>
             <h2>Formulario de Registro</h2>
@@ -103,13 +100,8 @@ export default function Acceso() {
             </form>
           </div>
         )}
-
-        {/* Botones de ayuda y contacto */}
-        <div style={styles.footerButtons}>
-          <button style={styles.footerButton}>Contacto</button>
-          <button style={styles.footerButton}>Ayuda</button>
-        </div>
       </div>
+      <Footer/>
     </div>
 
   );

@@ -1,4 +1,7 @@
 import React from 'react';
+import Footer from '../components/Footer';
+import Head from 'next/head';
+import Header from '../components/Header';
 
 export default function Cart() {
   // Ejemplo de productos en el carrito
@@ -14,16 +17,8 @@ export default function Cart() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      {/* Header */}
-      <header style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #ccc' }}>
-        <h1 style={{ margin: 0 }}>Alterlean</h1>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <button style={{ marginRight: '20px' }}>Perfil</button>
-          <button>Cart ({cartItems.length})</button>
-        </div>
-      </header>
+      <Header/>
 
-      {/* Main Content */}
       <div style={{ display: 'flex', flex: 1, padding: '20px' }}>
         <div style={{ flex: 2 }}>
           <h2>Tu Carrito</h2>
@@ -57,13 +52,7 @@ export default function Cart() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer style={{ padding: '20px', textAlign: 'center', borderTop: '1px solid #ccc', display: 'flex', justifyContent: 'space-evenly' }}>
-        <button>Perfil</button>
-        <button>Contactos</button>
-        <button>Compras</button>
-        <button>Ayuda</button>
-      </footer>
+      <Footer/>
     </div>
   );
 }
