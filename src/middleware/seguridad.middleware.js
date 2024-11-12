@@ -6,7 +6,7 @@ import passport from "passport";
 import morgan from "morgan";
 import MongoStore from "connect-mongo";
 
-import { SESSION_SECRET, MONGODB_URI } from "./config"; // Modifica según tu estructura de archivos
+import { SESSION_SECRET, MONGODB_URI } from "../config.js";
 
 const middleware = (app) => {
   // Log de las peticiones HTTP
@@ -23,7 +23,7 @@ const middleware = (app) => {
     secret: SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: MONGODB_URI }), // Almacenar sesiones en MongoDB
+    store: MongoStore.create({ mongoUrl: MONGODB_URI }),
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // La sesión dura 24 horas
         secure: false, // Cambiar a `true` si usas HTTPS en producción
