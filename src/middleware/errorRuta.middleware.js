@@ -10,3 +10,4 @@ export const errorRuta = (req, res, next) => {
         });
     }
 };
+export default errorRuta;
