@@ -21,6 +21,7 @@ instalar mongoDB
 https://www.mongodb.com/try/download/community
 instalar en la opcion completa, no custom
 destiquear la opcion de instalar como servicio (para mas claridad, la casilla no debe quedar marcada)
+agregar a las variables de entorno C:\Program Files\MongoDB\Server\8.0\bin
 
 
 
