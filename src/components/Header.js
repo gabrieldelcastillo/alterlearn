@@ -1,26 +1,18 @@
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React from 'react';
+import styles from '../styles/Header.module.css';
 
-export default function Header() {
-  const router = useRouter();
-
-  const goToChat = () => {
-    router.push('/chat');
-  }
-
-  if (router.pathname !== "/pages/access") {
+const Header = () => {
     return (
-      <nav>
-        <Link href="/init">
-          Inicio
-        </Link>
-        <Link href="/">
-          Acceso
-        </Link>
-        <Link href="/chat">
-          Chat
-        </Link>
-      </nav>
+        <header className={styles.header}>
+            <div className={styles.logo}>Alterlearn</div>
+            <input type="text" className={styles.searchBar} placeholder="Buscar..." />
+            <div className={styles.buttons}>
+                <button className={styles.button}>Notificaciones</button>
+                <button className={styles.button}>Carro</button>
+                <button className={styles.button}>Perfil</button>
+            </div>
+        </header>
     );
-  }
-}
+};
+
+export default Header;
