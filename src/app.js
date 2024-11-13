@@ -7,6 +7,7 @@ import {PORT} from "./config.js"
 import isAuthenticated from './middleware/auth.middleware.js'
 import errorRuta from './middleware/errorRuta.middleware.js'
 import middleware from './middleware/seguridad.middleware.js'
+import connectdb from './database.js'
 import userRoutes from './routes/auth.routes.js'
 import "./config/passport.js"
 
@@ -17,9 +18,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // settings
 app.set("port", PORT);
 app.set("views", join(__dirname, "views"));
-
+app.use(express.json());
 // middlewares ajuste base de datos y seguridad del sitio web
 middleware(app);
+connectdb(app);
 
 // Global Variables
 app.use((req, res, next) => {
@@ -30,6 +32,8 @@ app.use((req, res, next) => {
   next();
 });
 
+
+
 // routes
 app.use(userRoutes);
 
@@ -39,7 +43,12 @@ app.use(isAuthenticated);
 // static files
 app.use(express.static(join(__dirname, "public")));
 
+
+
+
 //middleware de error
 app.use(errorRuta);
+
+
 
 export default app;

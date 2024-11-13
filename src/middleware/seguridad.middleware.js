@@ -11,7 +11,7 @@ import { SESSION_SECRET, MONGODB_URI } from "../config.js";
 const middleware = (app) => {
   // Log de las peticiones HTTP
   app.use(morgan("dev"));
-
+  
   // Parseo de datos del cuerpo de la solicitud (body parser)
   app.use(express.urlencoded({ extended: false }));
 
