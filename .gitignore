@@ -38,3 +38,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#cosas de next
+/.gitignore
+/.eslinctrc.json
+/next.config.ts
+/postcss.config.mjs
+/README.md
+/tailwind.config.js
+/ts.config.json
