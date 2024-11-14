@@ -27,6 +27,7 @@ export const signup = async (req, res) => {
   const newUser = new User({ name, email, password });
   newUser.password = await newUser.encryptPassword(password);
   await newUser.save(); 
+  console.log(newUser)
   res.status(201).json({ success: true, message: "Se ha registrado de maenra exitosa" });
 };
 
