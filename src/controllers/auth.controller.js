@@ -28,7 +28,7 @@ export const signup = async (req, res) => {
   newUser.password = await newUser.encryptPassword(password);
   await newUser.save(); 
   console.log(newUser)
-  res.status(201).json({ success: true, message: "Se ha registrado de maenra exitosa" });
+  res.status(201).json({ success: true, message: "Se ha registrado de manera exitosa" });
 };
 
 export const signin = async (req, res, next) => {
@@ -38,7 +38,7 @@ export const signin = async (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(400).json({ success: false, message: "Invalid credentials." });
+      return res.status(400).json({ success: false, message: "credenciales invalidas." });
     }
 
     req.logIn(user, (err) => {
@@ -53,10 +53,28 @@ export const signin = async (req, res, next) => {
 
 
 export const logout = async (req, res, next) => {
-  await req.logout((err) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: "Failed to log out." });
+  try {
+    if (!req.isAuthenticated()) {
+      return res.status(400).json({ success: false, message: "No active session found." });
     }
-    res.status(200).json({ success: true, message: "You are logged out now." });
-  });
+
+    req.logout((err) => {
+      if (err) {
+        console.error('Logout error:', err);
+        return res.status(500).json({ success: false, message: "Failed to log out. Please try again." });
+      }
+
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Session destruction error:', err);
+          return res.status(500).json({ success: false, message: "Failed to clear session." });
+        }
+
+        res.status(200).json({ success: true, message: "You are logged out successfully." });
+      });
+    });
+  } catch (error) {
+    console.error('Logout unexpected error:', error);
+    return res.status(500).json({ success: false, message: "An unexpected error occurred. Please try again." });
+  }
 };
