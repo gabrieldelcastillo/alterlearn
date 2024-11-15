@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../chat/CartHeader.module.css';
+import Link from 'next/link';
 
 const Header = () => {
     return (
@@ -8,7 +9,7 @@ const Header = () => {
             <input type="text" className={styles.searchBar} placeholder="Buscar..." />
             <div className={styles.buttons}>
                 <button className={styles.button}>Notificaciones</button>
-                <button className={styles.button}>Carro</button>
+                <Link href="/cart"><button className={styles.button}>Carro</button></Link>
                 <button className={styles.button}>Perfil</button>
             </div>
         </header>
