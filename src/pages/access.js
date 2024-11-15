@@ -26,49 +26,6 @@ export default function Acceso() {
   return (
     <div style={styles.container}>
       <div style={styles.formContainer}>
-        <div style={styles.switchContainer}>
-          <button
-            style={{ ...styles.switchButton, backgroundColor: isRegister ? '#4caf50' : '#ddd' }}
-            onClick={toggleAccessMode}
-          >
-            Registrarse
-          </button>
-          <button
-            style={{ ...styles.switchButton, backgroundColor: !isRegister ? '#4caf50' : '#ddd' }}
-            onClick={toggleAccessMode}
-          >
-            Acceder
-          </button>
-        </div>
-
-        {isRegister ? (
-          <div style={styles.formContent}>
-            <h2>Formulario de Registro</h2>
-            <form style={styles.form}>
-              <input
-                type="email"
-                placeholder="Correo electrónico"
-                style={styles.input}
-                required
-              />
-              <input
-                type="text"
-                placeholder="Nombre de usuario"
-                style={styles.input}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Contraseña"
-                style={styles.input}
-                required
-              />
-              <button type="submit" style={styles.submitButton}>
-                Registrarse
-              </button>
-            </form>
-          </div>
-        ) : (
           <div style={styles.formContent}>
             <h2>Formulario de Acceso</h2>
             <form onSubmit={handleLogin} style={styles.form}>
@@ -93,7 +50,6 @@ export default function Acceso() {
               </button>
             </form>
           </div>
-        )}
       </div>
       <Footer/>
     </div>
