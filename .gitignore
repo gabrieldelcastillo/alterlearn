@@ -47,3 +47,4 @@ next-env.d.ts
 /README.md
 /tailwind.config.js
 /ts.config.json
+/public

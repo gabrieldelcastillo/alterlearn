@@ -1,4 +1,5 @@
 import express from "express"
+import cors from 'cors';
 
 import {dirname, join} from "path"
 import {fileURLToPath} from "url"
@@ -22,6 +23,7 @@ app.use(express.json());
 // middlewares ajuste base de datos y seguridad del sitio web
 middleware(app);
 connectdb(app);
+app.use(cors());
 
 // Global Variables
 app.use((req, res, next) => {
