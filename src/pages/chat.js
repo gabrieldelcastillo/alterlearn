@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import Footer from '../components/Footer';
 
 export default function Chat() {
@@ -15,13 +14,18 @@ export default function Chat() {
                     {[...Array(10)].map((_, i) => (
                         <div key={i} style={{ padding: '10px', borderBottom: '1px solid #eee', cursor: 'pointer' }}>
                             <p style={{ margin: '0', fontWeight: i % 2 === 0 ? 'bold' : 'normal' }}>Chat {i + 1}</p>
-                            <p style={{ margin: '0', color: '#888' }}>último mensaje</p>
+                            <p style={{ 
+                                margin: '0', 
+                                color: '#888' }}>último mensaje</p>
                         </div>
                     ))}
                 </div>
             </aside>
 
-            <main style={{ flex: 1, display: 'block', flexDirection: 'column' }}>
+            <main style={{ 
+                flex: 1, 
+                display: 'block', 
+                flexDirection: 'column' }}>
                 <div style={{
                     flex: 1,
                     display: 'flex',

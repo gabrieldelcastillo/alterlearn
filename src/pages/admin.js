@@ -6,7 +6,6 @@ export default function Admin() {
     { title: 'f_mec_c2_energia', price: 4500, subject: 'Física Mecánica', type: 'Certamen (solución)' },
     { title: 'fund_mat_control3', price: 2250, subject: 'Fundamentos de Matemáticas', type: 'Control (solo)' },
     { title: 'programacion2_hacks', price: 3550, subject: 'Programación II', type: 'Apuntes' },
-    // ... Otros recursos pendientes
   ];
 
   const characteristics = [
@@ -21,7 +20,6 @@ export default function Admin() {
 
   return (
     <div style={{ display: 'flex', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      {/* Lista de revisiones pendientes */}
       <div style={{ width: '30%', borderRight: '1px solid #ccc', padding: '10px' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
@@ -45,7 +43,6 @@ export default function Admin() {
         </table>
       </div>
 
-      {/* Visualización de la página del documento y control de página */}
       <div style={{ width: '40%', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px' }}>
         <div style={{ width: '80%', height: '400px', border: '1px solid #ccc', marginBottom: '10px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <p>Vista previa de la página {currentPage}</p>
@@ -67,7 +64,6 @@ export default function Admin() {
         </div>
       </div>
 
-      {/* Checkboxes para características del documento */}
       <div style={{ width: '30%', padding: '10px' }}>
         {characteristics.map((char, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
