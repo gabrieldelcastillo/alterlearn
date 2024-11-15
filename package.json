@@ -1,8 +1,11 @@
 {
   "name": "alterlearn5",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "scripts": {
+    "front": "next dev",
+    "back": "node src/_index.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

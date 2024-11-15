@@ -16,7 +16,64 @@ export default function Acceso() {
 
   const router = useRouter();
 
-  const handleLogin = (e) => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
+  
+    const email = e.target[0].value;
+    const name = e.target[1].value;
+    const password = e.target[2].value;
+  
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/alterlearn/registrarse`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        alert('Registro exitoso');
+        // Puedes redirigir al usuario o hacer algo más aquí
+      } else {
+        alert(data.message || 'Error en el registro');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error en el registro');
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/alterlearn/logearse`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: username, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        alert('Inicio de sesión exitoso');
+        // Redirige al usuario a la página deseada
+        router.push("/search");
+      } else {
+        alert(data.message || 'Error en el inicio de sesión');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error en el inicio de sesión');
+    }
+  };
+
+  const handleAdminLogin = (e) => {
     e.preventDefault();
 
     if(username === 'admin' && password === '1234') {
