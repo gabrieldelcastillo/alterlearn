@@ -1,7 +1,6 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import Head from 'next/head';
-import Header from '../components/Header';
 
 export default function Cart() {
   // Ejemplo de productos en el carrito
