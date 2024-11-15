@@ -6,9 +6,8 @@ export default function Index() {
     return (
         <div>
             <IndexHeader />
-
+            
             <Footer />
-
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../styles/components/Header.module.css';
+import styles from './SearchHeader.module.css';
 
-const Header = () => {
+export default function Header () {
     return (
         <header className={styles.header}>
             <div className={styles.logo}>Alterlearn</div>
@@ -14,5 +14,3 @@ const Header = () => {
         </header>
     );
 };
-
-export default Header;

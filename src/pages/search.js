@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import Footer from '../components/Footer';
+import SearchHeader from '../components/search/SearchHeader'
 
 export default function Search() {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <SearchHeader />
             <div style={{ display: 'flex', flex: 1, padding: '20px' }}>
                 <aside style={{ width: '250px', paddingRight: '20px', borderRight: '1px solid #ccc' }}>
                     <h3>Filtros</h3>
