@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { parsePagesSegmentConfig } from 'next/dist/build/segment-config/pages/pages-segment-config';
 import Footer from '../components/Footer';
 
 export default function Acceso() {
   const [isRegister, setIsRegister] = useState(true);
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
+  const [email, setEmail] = useState(''); 
 
   // Función para cambiar entre "Registrarse" y "Acceder"
   const toggleAccessMode = () => {
@@ -18,25 +17,22 @@ export default function Acceso() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-  
-    const email = e.target[0].value;
-    const name = e.target[1].value;
-    const password = e.target[2].value;
-  
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/alterlearn/registrarse`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_VITE_API_URL}/alterlearn/registrarse`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name: username, email, password }), // Enviar nombre, correo y contraseña
       });
-  
+
       const data = await response.json();
-  
+
       if (data.success) {
         alert('Registro exitoso');
         // Puedes redirigir al usuario o hacer algo más aquí
+        router.push('/login'); // Redirigir a la página de inicio de sesión o donde desees
       } else {
         alert(data.message || 'Error en el registro');
       }
@@ -50,12 +46,12 @@ export default function Acceso() {
     e.preventDefault();
   
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/alterlearn/logearse`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_VITE_API_URL}/alterlearn/logearse`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: username, password }),
+        body: JSON.stringify({ email, password }),
       });
   
       const data = await response.json();
@@ -107,24 +103,30 @@ export default function Acceso() {
         {isRegister ? (
           <div style={styles.formContent}>
             <h2>Formulario de Registro</h2>
-            <form style={styles.form}>
+            <form onSubmit={handleRegister} style={styles.form}>
               <input
                 type="email"
                 placeholder="Correo electrónico"
                 style={styles.input}
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="text"
                 placeholder="Nombre de usuario"
                 style={styles.input}
                 required
+                value={username}
+                onChange={(e) => setUserName(e.target.value)}
               />
               <input
                 type="password"
                 placeholder="Contraseña"
                 style={styles.input}
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} 
               />
               <button type="submit" style={styles.submitButton}>
                 Registrarse
@@ -135,13 +137,13 @@ export default function Acceso() {
           <div style={styles.formContent}>
             <h2>Formulario de Acceso</h2>
             <form onSubmit={handleLogin} style={styles.form}>
-              <input
-                type="text"
-                value={username}
-                placeholder="Nombre de usuario"
+             <input
+                type="email"
+                placeholder="Correo electrónico"
                 style={styles.input}
-                onChange={(e) => setUserName(e.target.value)}
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <input
                 type="password"

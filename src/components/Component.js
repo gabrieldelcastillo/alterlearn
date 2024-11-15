@@ -9,8 +9,9 @@ const MyComponent = () => {
       try {
         // Assuming the session ID is stored in local storage
         const sessionId = localStorage.getItem('sessionId');
+        console.log('Session ID:', sessionId);
 
-        const response = await fetch(import.meta.env.VITE_API_URL + "/data", {
+        const response = await fetch(process.env.NEXT_PUBLIC_VITE_API_URL + "/data", {
           method: 'GET', // or 'POST', depending on your needs
           headers: {
             'Content-Type': 'application/json',
