@@ -24,7 +24,7 @@ export default function Acceso() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: username, email, password }), // Enviar nombre, correo y contraseña
+        body: JSON.stringify({ name: username, email, password }),
       });
 
       const data = await response.json();
