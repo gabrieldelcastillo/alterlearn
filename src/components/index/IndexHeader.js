@@ -1,15 +1,47 @@
 import React from 'react';
+import Link from 'next/link';
 
-const HeaderLanding = () => {
+export default function HeaderLanding() {
     return (
-        <header style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem' }}>
-            <h1>Alterlearn</h1>
-            <div>
-                <button style={{ marginRight: '10px' }}>Acceder</button>
-                <button>Registrarse</button>
+        <header style={{
+            display: 'inline-flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: 'transparent',
+            position: 'revert',
+            width: '100%',
+            textAlign: 'center'}}>
+
+            <h1 style={{
+                fontSize: '3em',
+                fontWeight: 'bold',
+                color: '#333'
+            }}>Alterlearn</h1>
+
+            <div style={{
+                display: 'flex',
+                gap: '10px',
+            }}>
+                <Link href="/access">
+                    <button style={{
+                        padding: '8px 12px',
+                        fontSize: '0.9em',
+                        cursor: 'pointer',
+                        backgroundColor: '#007bff',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius:'4px'}}>Acceder</button></Link>
+                <Link href="/register">
+                    <button style={{
+                        padding: '8px 12px',
+                        fontSize: '0.9em',
+                        cursor: 'pointer',
+                        backgroundColor: '#007bff',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius:'4px'
+                    }}>Registrarse</button></Link>
             </div>
         </header>
     );
 };
-
-export default HeaderLanding;
