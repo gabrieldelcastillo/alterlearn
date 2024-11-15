@@ -3,7 +3,6 @@ import Footer from '../components/Footer';
 import Head from 'next/head';
 
 export default function Cart() {
-  // Ejemplo de productos en el carrito
   const cartItems = [
     { id: 1, name: 'ECONOMIA-CERTAMEN2-ALGEBRA', price: 7000, description: 'Descripción en proceso...' },
     { id: 2, name: 'ECONOMIA-CERTAMEN3-ALGEBRA', price: 7000, description: 'Descripción en proceso...' },
@@ -11,7 +10,7 @@ export default function Cart() {
   ];
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price, 0);
-  const commission = subtotal * 0.05; // Comisión del 5%
+  const commission = subtotal * 0.05;
   const total = subtotal + commission;
 
   return (
@@ -33,8 +32,7 @@ export default function Cart() {
             </div>
           ))}
         </div>
-
-        {/* Resumen y acciones */}
+        
         <div style={{ flex: 1, padding: '20px', borderLeft: '1px solid #ccc' }}>
           <div style={{ marginBottom: '20px' }}>
             <p>Subtotal: ${subtotal.toLocaleString()}</p>

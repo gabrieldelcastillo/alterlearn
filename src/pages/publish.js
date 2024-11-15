@@ -6,7 +6,6 @@ export default function Publish() {
     return (
         <div style={{ padding: '20px' }}>
             <main style={{ display: 'flex', marginTop: '20px' }}>
-                {/* Left section for file upload and image previews */}
                 <section style={{ flex: 1, marginRight: '20px' }}>
                     <button style={{ display: 'block', marginBottom: '10px', backgroundColor: 'red', color: 'white', padding: '10px' }}>Subir archivo</button>
                     <div style={{ width: '100%', height: '300px', border: '1px solid #ccc', marginBottom: '10px' }}></div>
