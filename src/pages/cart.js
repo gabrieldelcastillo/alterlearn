@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from '../components/Footer';
 import Head from 'next/head';
+import CartHeader from '../components/cart/CartHeader';
 
 export default function Cart() {
   const cartItems = [
@@ -15,8 +16,7 @@ export default function Cart() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header/>
-
+      <CartHeader />
       <div style={{ display: 'flex', flex: 1, padding: '20px' }}>
         <div style={{ flex: 2 }}>
           <h2>Tu Carrito</h2>

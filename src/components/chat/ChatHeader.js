@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/components/Header.module.css';
+import styles from '../chat/CartHeader.module.css';
 
 const Header = () => {
     return (
