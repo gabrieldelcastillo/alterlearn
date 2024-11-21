@@ -1,15 +1,13 @@
 import React from "react";
 import Footer from "../components/Footer";
-import IndexHeader from "../components/index/IndexHeader"
+import UserIndexHeader from "../components/index/UserIndexHeader"
 import Image from "next/image";
+import NoUserIndexHeader from "../components/index/NoUserIndexHeader";
 
 export default function Index() {
     return (
-        <div style={{
-            display: "grid", 
-            minHeight: '100dvh', 
-            gridTemplateRows: 'auto 1fr auto'}}>
-            <IndexHeader />
+        <div>
+            <NoUserIndexHeader />
             <Footer />
         </div>
     )

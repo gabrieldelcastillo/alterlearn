@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import cart from '/src/public/cart.png'
 import notifications from '/src/public/notifications.png'
+import access from '/src/public/access.png';
 
 export default function HeaderLanding() {
     return (
@@ -13,7 +14,8 @@ export default function HeaderLanding() {
             backgroundColor: 'transparent',
             position: 'revert',
             width: '100%',
-            textAlign: 'center'
+            textAlign: 'center',
+            marginTop: '-30px'
         }}>
 
             <h1 style={{
@@ -33,19 +35,8 @@ export default function HeaderLanding() {
                 display: 'flex',
                 gap: '10px',
             }}>
-                <Link href="/access">
-                    <button style={{
-                        padding: '8px 12px',
-                        fontSize: '0.9em',
-                        cursor: 'pointer',
-                        backgroundColor: '#007bff',
-                        color: '#fff',
-                        border: 'none',
-                        borderRadius: '4px'
-                    }}>Acceder</button></Link>
-                <Link href="/cart">
-                    <Image src={cart} width={35} />
-                </Link>
+                <Link href="/access"><Image src={access} width={35}/></Link>
+                <Link href="/cart"><Image src={cart} width={35} /></Link>
                 <button style={{border: 'none', backgroundColor: 'transparent'}}>
                     <Image src={notifications} width={35}/>
                 </button>
