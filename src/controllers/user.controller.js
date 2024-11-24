@@ -1,78 +1,49 @@
 import { pool } from "../db.js";
+import bcrypt from "bcrypt";
 
-export const getEmployees = async (req, res) => {
+export const registrarse = async (req, res) => {
   try {
-    const [rows] = await pool.query("SELECT * FROM employee");
-    res.json(rows);
-  } catch (error) {
-    return res.status(500).json({ message: "Something goes wrong" });
-  }
-};
+    const { nombre_usuario, correo_electronico, contrasenia, isAdmin = 0, admin_key } = req.body;
+    let errors = [];
 
-export const getEmployee = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const [rows] = await pool.query("SELECT * FROM employee WHERE id = ?", [
-      id,
-    ]);
-
-    if (rows.length <= 0) {
-      return res.status(404).json({ message: "Employee not found" });
+    // Validación de la contraseña
+    if (!contrasenia || contrasenia.length < 4) {
+      errors.push({ text: "La contraseña debe tener al menos 4 caracteres" });
     }
 
-    res.json(rows[0]);
-  } catch (error) {
-    return res.status(500).json({ message: "Something goes wrong" });
-  }
-};
-
-export const deleteEmployee = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const [rows] = await pool.query("DELETE FROM employee WHERE id = ?", [id]);
-
-    if (rows.affectedRows <= 0) {
-      return res.status(404).json({ message: "Employee not found" });
+    // Validación de campos requeridos
+    if (!nombre_usuario || !correo_electronico || !contrasenia) {
+      errors.push({ text: "Faltan campos por completar." });
     }
 
-    res.sendStatus(204);
-  } catch (error) {
-    return res.status(500).json({ message: "Something goes wrong" });
-  }
-};
+    if (errors.length > 0) {
+      return res.status(400).json({ success: false, errors });
+    }
 
-export const createEmployee = async (req, res) => {
-  try {
-    const { name, salary } = req.body;
+    // Verificar si el correo ya está en uso
+    const [emailFound] = await pool.query("SELECT * FROM Usuario WHERE correo_electronico = ?", [correo_electronico]);
+    if (emailFound.length > 0) {
+      return res.status(400).json({ success: false, message: "El correo ya está en uso." });
+    }
+
+    // Verificar si el nombre de usuario ya está en uso
+    const [userFound] = await pool.query("SELECT * FROM Usuario WHERE nombre_usuario = ?", [nombre_usuario]);
+    if (userFound.length > 0) {
+      return res.status(400).json({ success: false, message: "El nombre de usuario ya está en uso." });
+    }
+
+    // Encriptar la contraseña
+    const hashedPassword = await bcrypt.hash(contrasenia, 10);
+
+    // Guardar el nuevo usuario
     const [rows] = await pool.query(
-      "INSERT INTO employee (name, salary) VALUES (?, ?)",
-      [name, salary]
-    );
-    res.status(201).json({ id: rows.insertId, name, salary });
-  } catch (error) {
-    return res.status(500).json({ message: "Something goes wrong" });
-  }
-};
-
-export const updateEmployee = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, salary } = req.body;
-
-    const [result] = await pool.query(
-      "UPDATE employee SET name = IFNULL(?, name), salary = IFNULL(?, salary) WHERE id = ?",
-      [name, salary, id]
+      "INSERT INTO Usuario (nombre_usuario, correo_electronico, contrasenia, isAdmin, admin_key) VALUES (?, ?, ?, ?, ?)",
+      [nombre_usuario, correo_electronico, hashedPassword, isAdmin, admin_key]
     );
 
-    if (result.affectedRows === 0)
-      return res.status(404).json({ message: "Employee not found" });
-
-    const [rows] = await pool.query("SELECT * FROM employee WHERE id = ?", [
-      id,
-    ]);
-
-    res.json(rows[0]);
+    res.status(201).json({ success: true, message: "Registro exitoso", id_usuario: rows.insertId });
   } catch (error) {
-    return res.status(500).json({ message: "Something goes wrong" });
+    console.error(error);
+    return res.status(500).json({ success: false, message: "Algo salió mal" });
   }
 };
