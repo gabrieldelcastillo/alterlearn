@@ -1,9 +1,11 @@
 import React from 'react';
 import Footer from '../components/Footer';
+import ChatHeader from '../components/chat/ChatHeader';
 
 export default function Chat() {
     return (
         <div style={{ fontFamily: 'Arial, sans-serif', display: 'flex', height: '100vh', border: '1px solid #ccc' }}>
+            <ChatHeader />
             <aside style={{ width: '250px', borderRight: '1px solid #ccc', padding: '10px' }}>
                 <input
                     type="text"

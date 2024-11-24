@@ -1,5 +1,9 @@
 import React from 'react';
+<<<<<<< HEAD
 import styles from '../styles/components/Footer.module.css';
+=======
+import styles from './Footer.module.css';
+>>>>>>> f3f0d0e0825c34b1acc8441949e52680faf5375f
 import Link from 'next/link';
 
 export default function Footer() {
