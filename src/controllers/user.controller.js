@@ -63,9 +63,14 @@ export const registrarse = async (req, res) => {
 };
 
 
-export const logearse = async (req, res) => {
-    const { correo_electronico, contrasenia } = req.body;
+export const logearse = async (req, res) => {    
   
+    if (req.isAuthenticated()) {
+        return res.status(400).json({ success: false, message: "Ya estás logueado." });
+    }
+
+    const { correo_electronico, contrasenia } = req.body;
+
     try {
       // Verificar si el usuario existe
       const [rows] = await pool.query("SELECT * FROM Usuario WHERE correo_electronico = ?", [correo_electronico]);
