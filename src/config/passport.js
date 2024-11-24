@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { pool } from "../db.js"; 
-import bcrypt from "bcrypt"; 
+import bcrypt from "bcryptjs";
 
 //import User from "../models/usuario.js";
 

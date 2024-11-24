@@ -11,6 +11,8 @@ CREATE TABLE Usuario (
     PRIMARY KEY (id_usuario)
 );
 
+ALTER TABLE Usuario MODIFY COLUMN contrasenia VARCHAR(255);
+
 CREATE TABLE Asignatura (
     id_asignatura INT AUTO_INCREMENT PRIMARY KEY,
     nombre_asignatura VARCHAR(65) NOT NULL UNIQUE

@@ -9,7 +9,7 @@ import isAuthenticated from './middleware/auth.middleware.js'
 import errorRuta from './middleware/errorRuta.middleware.js'
 import middleware from './middleware/seguridad.middleware.js'
 import connectdb from './database.js'
-import userRoutes from './routes/auth.routes.js'
+import userRoutes from './routes/user.routes.js'
 import "./config/passport.js"
 
 // Initializations

@@ -21,7 +21,7 @@ const middleware = (app) => {
   // Configuración de la sesión
   app.use(session({
     secret: SESSION_SECRET,
-    resave: true,
+    resave: false, // Evita que la sesión se guarde si no ha cambiado
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: MONGODB_URI }),
     cookie: {
