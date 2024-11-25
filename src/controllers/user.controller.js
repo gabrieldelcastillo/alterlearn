@@ -1,8 +1,5 @@
 import { pool } from "../db.js";
-//logeo y registro
 import bcrypt from "bcryptjs";
-//logeo
-//import passport from "passport";
 
 export const registrarse = async (req, res) => {
   try {
@@ -94,7 +91,6 @@ export const logearse = async (req, res) => {
             return res.status(500).json({ success: false, message: "Error en el servidor." });
         }
 
-        // Responder con éxito y datos del usuario
         return res.status(200).json({ success: true, message: "Inicio de sesión exitoso" });
     });
 
@@ -133,5 +129,5 @@ export const deslogearse = async (req, res, next) => {
       console.error('Logout unexpected error:', error);
       return res.status(500).json({ success: false, message: "An unexpected error occurred. Please try again." });
     }
-  };
+};
   
