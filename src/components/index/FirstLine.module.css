@@ -1,32 +1,42 @@
-@keyframes slide {
+.wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.scrollContainer {
+    width: 100%;
+    overflow: hidden;
+}
+
+.scrollContent {
+    display: flex;
+    width: fit-content;
+}
+
+.ul {
+    display: flex;
+    list-style: none;    
+    padding: 0;
+    margin: 0;
+    gap: 0.25rem;
+    align-items: center;
+    flex-shrink: 0;
+    animation: scroll 40s linear infinite;
+}
+
+@keyframes scroll {
     0% {
-      transform: translateX(0); 
+        transform: translateX(0);
     }
     100% {
-      transform: translateX(-100%); 
+        transform: translateX(-100%);
     }
-  }
-  
-  .scrollContainer {
-    display: flex; 
-    overflow: hidden; 
-    animation: slide 20s linear infinite; 
-    gap: 20px;
-  }
-  
-  .scrollContent {
-    display: flex;
-    flex-shrink: 0;
-  }
+}
 
-  .subject {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px;
-    min-width: 150px;
-    white-space: normal;
+/* For smoother animation on different screen sizes */
+@media (max-width: 768px) {
+    .ul {
+        animation-duration: 10s;
+    }
 }
