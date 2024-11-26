@@ -34,7 +34,6 @@
     }
 }
 
-/* For smoother animation on different screen sizes */
 @media (max-width: 768px) {
     .ul {
         animation-duration: 10s;

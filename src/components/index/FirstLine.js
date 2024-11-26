@@ -3,7 +3,7 @@ import Image from "next/image";
 import style from "./FirstLine.module.css"
 
 export default function FirstLine() {
-    const subjects = [
+    const careers = [
         { name: "Ingeniería", image: "/ingenieria.jpg" },
         { name: "Medicina", image: "/medicina.jpg" },
         { name: "Cine", image: "/cine.jpg" },
@@ -18,29 +18,27 @@ export default function FirstLine() {
         { name: "Ver Más", image: "/cart.png" }
     ];
     
-
     return (
         <div className={style.wrapper}>
             <h1 style={{textAlign: 'center'}}>Carreras</h1>
             <div className={style.scrollContainer}>
                 <div className={style.scrollContent}>
                     <ul className={style.ul}>
-                        {subjects.map((subject, index) => (
+                        {careers.map((career, index) => (
                             <li key={index}>
-                                <Subject 
-                                    nombreAsignatura={subject.name} 
-                                    imagenFondo={<Image src={subject.image}/>}
+                                <Career 
+                                    careerName={career.name} 
+                                    backgroundImage={<Image src={career.image}/>}
                                 />
                             </li>
                         ))}
                     </ul>
-                    {/* Duplicate list for smooth infinite scroll */}
                     <ul className={style.ul}>
-                        {subjects.map((subject, index) => (
+                        {careers.map((career, index) => (
                             <li key={`duplicate-${index}`}>
-                                <Subject 
-                                    nombreAsignatura={subject.name} 
-                                    imagenFondo={<Image src={subject.image}/>}
+                                <Career 
+                                    careerName={career.name} 
+                                    backgroundImage={<Image src={career.image}/>}
                                 />
                             </li>
                         ))}
@@ -51,7 +49,7 @@ export default function FirstLine() {
     );
 }
 
-function Subject({ nombreAsignatura, imagenFondo }) {
+function Career({ careerName, backgroundImage }) {
     return (
         <div
             style={{
@@ -63,14 +61,14 @@ function Subject({ nombreAsignatura, imagenFondo }) {
                 borderRadius: "10px",
                 margin: "0 10px",
                 textAlign: "center",
-                backgroundImage: `url($(imagenFondo))`,
+                backgroundImage: backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 width: '150px',
                 height: '150px',
             }}
         >
-            <h2 style={{textAlign: 'center', color: 'fff', fontSize: '30px'}}>{nombreAsignatura}</h2>
+            <h2 style={{textAlign: 'center', color: 'fff', fontSize: '30px'}}>{careerName}</h2>
         </div>
     );
 }
