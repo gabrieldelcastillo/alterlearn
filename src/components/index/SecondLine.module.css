@@ -1,5 +1,7 @@
 .subjects {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     justify-content: center;
     gap: 20px;
     padding: 20px;
@@ -11,9 +13,8 @@
 }
 
 .container {
-    width: 150px;
-    height: 150px;
-    background-color: gray;
+    width: 100%;
+    height: 100%;
     border: none;
     border-radius: 15px;
     cursor: pointer;

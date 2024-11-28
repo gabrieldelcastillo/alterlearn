@@ -2,13 +2,14 @@ import React from "react";
 import Image from "next/image";
 import style from "./SecondLine.module.css"
 import Link from "next/link";
+import matematicas from "./images/matematicas.jpg"
 
 export default function SecondLine() {
     return (
         <div>
             <h1 style={{ textAlign: 'center' }}>Asignaturas</h1>
             <div className={style.subjects}>
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Matemáticas" />
+                <Subject subjectImage={matematicas} subjectName="Matemáticas" />
                 <Subject subjectImage="/path-to-your-image.png" subjectName="Física" />
                 <Subject subjectImage="/path-to-your-image.png" subjectName="Humanistas" />
                 <Subject subjectImage="/path-to-your-image.png" subjectName="Programación" />
