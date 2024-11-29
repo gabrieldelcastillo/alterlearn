@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './CartHeader.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
+import notifications from '/src/public/notifications.png'
+import access from '/src/public/access.png';
 
 const Header = () => {
     return (
@@ -8,9 +11,10 @@ const Header = () => {
             <div className={styles.logo}>Alterlearn</div>
             <input type="text" className={styles.searchBar} placeholder="Buscar..." />
             <div className={styles.buttons}>
-                <button className={styles.button}>Notificaciones</button>
-                <Link href="/chat"><button className={styles.button}>Chats</button></Link>
-                <button className={styles.button}>Perfil</button>
+                <button style={{border: 'none', backgroundColor: 'transparent'}}>
+                    <Image src={notifications} width={35}/>
+                </button>
+                <Link href="/profile"><Image src={access} width={35}/></Link>
             </div>
         </header>
     );
