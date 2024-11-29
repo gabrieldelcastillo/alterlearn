@@ -64,8 +64,8 @@ function Career({ careerName, backgroundImage }) {
                 backgroundImage: backgroundImage,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                width: '150px',
-                height: '150px',
+                width: '250px',
+                height: '100px',
             }}
         >
             <h2 style={{textAlign: 'center', color: 'fff', fontSize: '30px'}}>{careerName}</h2>

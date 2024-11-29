@@ -14,6 +14,7 @@ export default function Index() {
             <FirstLine />
             <SecondLine />
             <ThirdLine />
+            <Footer />
         </div>
     );
 };

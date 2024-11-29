@@ -1,42 +1,74 @@
 import React from "react";
 import Image from "next/image";
 import style from "./SecondLine.module.css"
-import Link from "next/link";
-import matematicas from "./images/matematicas.jpg"
 
 export default function SecondLine() {
+    const subjects = [
+        { name: "Matemáticas", image: "/ingenieria.jpg" },
+        { name: "Medicina", image: "/medicina.jpg" },
+        { name: "Programación", image: "/cine.jpg" },
+        { name: "Humanistas", image: "/derecho.jpg" },
+        { name: "Marketing", image: "/sociologia.jpg" },
+        { name: "Física", image: "/administracion.jpg" },
+        { name: "Inglés", image: "/teatro.jpg" },
+        { name: "Química", image: "/quimica.jpg" },
+        { name: "Finanzas", image: "/diseno.jpg" },
+        { name: "Anatomía", image: "/ecologia.jpg" },
+        { name: "Economía", image: "/arquitectura.jpg" },
+        { name: "Ver Más", image: "/cart.png" }
+    ];
+    
     return (
-        <div>
-            <h1 style={{ textAlign: 'center' }}>Asignaturas</h1>
-            <div className={style.subjects}>
-                <Subject subjectImage={matematicas} subjectName="Matemáticas" />
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Física" />
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Humanistas" />
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Programación" />
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Medicina" />
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Inglés" />
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Química" />
-                <Subject subjectImage="/path-to-your-image.png" subjectName="Ver Más" />
+        <div className={style.wrapper}>
+            <h1 style={{textAlign: 'center'}}>Carreras</h1>
+            <div className={style.scrollContainer}>
+                <div className={style.scrollContent}>
+                    <ul className={style.ul}>
+                        {subjects.map((subject, index) => (
+                            <li key={index}>
+                                <Subject 
+                                    subjectName={subject.name} 
+                                    backgroundImage={<Image src={subject.image}/>}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                    <ul className={style.ul}>
+                        {subjects.map((subject, index) => (
+                            <li key={`duplicate-${index}`}>
+                                <Subject
+                                    subjectName={subject.name} 
+                                    backgroundImage={<Image src={subject.image}/>}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
-    )
+    );
 }
 
-function Subject({ subjectName, subjectImage }) {
+function Subject({ subjectName, backgroundImage }) {
     return (
-        <Link href="/search" className={style.link}>
-            <button className={style.container}>
-                <div className={style.imageWrapper}>
-                    <Image 
-                        src={subjectImage} 
-                        alt={subjectName}
-                        width={80}
-                        height={80}
-                        className={style.image}
-                    />
-                </div>
-                <h2 className={style.name}>{subjectName}</h2>
-            </button>
-        </Link>
-    )
+        <div
+            style={{
+                display: "flex",
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: "10px",
+                borderStyle: "solid",
+                borderRadius: "10px",
+                margin: "0 10px",
+                textAlign: "center",
+                backgroundImage: backgroundImage,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                width: '250px',
+                height: '100px',
+            }}
+        >
+            <h2 style={{textAlign: 'center', color: 'fff', fontSize: '30px'}}>{subjectName}</h2>
+        </div>
+    );
 }
