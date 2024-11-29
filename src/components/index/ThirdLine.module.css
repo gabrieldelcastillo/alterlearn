@@ -1,0 +1,74 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columnas */
+    gap: 10px;
+    padding: 10px;
+}
+
+.column {
+    text-align: center;
+    padding: 5px;
+}
+
+.categoryTitle {
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.categoryPrice {
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #555;
+    font-weight: bold;
+}
+
+.itemsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.itemCard {
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.itemName {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.subject {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.contents {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 8px;
+    font-size: 1rem;
+    color: #666;
+}
+
+.addButton {
+    margin-top: 5px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    background-color: #0056b3;
+}
