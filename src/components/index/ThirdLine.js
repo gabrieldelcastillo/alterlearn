@@ -1,115 +1,51 @@
-import { useState } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import styles from './ThirdLine.module.css';
+import React from "react";
+import styles from "./ThirdLine.module.css"; // Archivo de estilos
 
-const ThirdLine = () => {
-    const [products, setProducts] = useState([
+export default function ThirdLine() {
+    const resources = [
         {
-            id: 1,
-            title: "Calculus: Early Transcendentals",
-            author: "James Stewart",
-            price: 1000,
-            condition: "New",
-            format: "Hardcover",
-            cover: "https://picsum.photos/400/500?random=1",
-            category: "Mathematics",
-            career: "Engineering"
+            category: "Certámenes (con solución)",
+            price: "CLP$1000",
+            items: ["Matemáticas", "Física", "Química"],
         },
         {
-            id: 2,
-            title: "Physics for Scientists and Engineers",
-            author: "Serway & Jewett",
-            price: 750,
-            condition: "Used",
-            format: "Digital",
-            cover: "https://picsum.photos/400/500?random=2",
-            category: "Physics",
-            career: "Engineering"
+            category: "Certámenes (sin solución)",
+            price: "CLP$800",
+            items: ["Biología", "Historia", "Filosofía"],
         },
-        // Add more products as needed
-    ]);
-
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    const [sortBy, setSortBy] = useState('default');
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1
-            }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1
-        }
-    };
+        {
+            category: "Controles",
+            price: "CLP$500",
+            items: ["Química", "Biología", "Física"],
+        },
+        {
+            category: "Tareas",
+            price: "CLP$250",
+            items: ["Historia", "Literatura", "Arte"],
+        },
+        {
+            category: "Apuntes",
+            price: "CLP$750",
+            items: ["Filosofía", "Economía", "Diseño"],
+        },
+    ];
 
     return (
-        <div className={styles.container}>
-            <motion.div 
-                className={styles.productGrid}
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                {filteredProducts.map((product) => (
-                    <motion.div
-                        key={product.id}
-                        variants={itemVariants}
-                        className={styles.productCard}
-                    >
-                        <div className={styles.imageContainer}>
-                            <Image
-                                src={product.cover}
-                                alt={product.title}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                        </div>
-                        
-                        <div className={styles.productInfo}>
-                            <div className={styles.badgeContainer}>
-                                <span className={styles.conditionBadge}>
-                                    {product.condition}
-                                </span>
-                                <span className={styles.formatBadge}>
-                                    {product.format}
-                                </span>
+        <div className={styles.grid}>
+            {resources.map((resource, index) => (
+                <div key={index} className={styles.column}>
+                    <h2 className={styles.categoryTitle}>{resource.category}</h2>
+                    <p className={styles.categoryPrice}>{resource.price}</p>
+                    <div className={styles.itemsContainer}>
+                        {resource.items.map((item, itemIndex) => (
+                            <div key={itemIndex} className={styles.itemCard}>
+                                <h3 className={styles.itemName}>{item}</h3>
+                                <button className={styles.addButton}>Añadir al Carro</button>
                             </div>
-                            
-                            <h3 className={styles.title}>
-                                {product.title}
-                            </h3>
-                            
-                            <p className={styles.author}>
-                                {product.author}
-                            </p>
-                            
-                            <div className={styles.priceContainer}>
-                                <span className={styles.price}>
-                                    CLP$    {product.price}
-                                </span>
-                                <button 
-                                    className={styles.addButton}
-                                    onClick={() => {/* Add to cart functionality */}}
-                                >
-                                    Añadir al carro
-                                </button>
-                            </div>
-                        </div>
-                    </motion.div>
-                ))}
-            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            ))}
         </div>
     );
-};
-
-export default ThirdLine;
+}
