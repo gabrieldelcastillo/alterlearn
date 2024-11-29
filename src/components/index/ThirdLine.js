@@ -49,6 +49,29 @@ export default function ThirdLine() {
                 },
             ],
         },
+        Apuntes: {
+            price: "CLP$750",
+            items: [
+                {
+                    name: "Apuntes Álgebra",
+                    year: 2017,
+                    subject: "Álgebra",
+                    contents: ["Teoría", "Ejercicios"],
+                },
+                {
+                    name: "Apuntes Probabilidad",
+                    year: 2021,
+                    subject: "Estadística",
+                    contents: ["Teoría", "Ejemplos prácticos"],
+                },
+                {
+                    name: "Apuntes Física",
+                    year: 2018,
+                    subject: "Física",
+                    contents: ["Ondas", "Termodinámica"],
+                },
+            ],
+        },
         Controles: {
             price: "CLP$500",
             items: [
@@ -116,29 +139,6 @@ export default function ThirdLine() {
                     year: 2021,
                     subject: "Álgebra",
                     contents: ["Polinomios"],
-                },
-            ],
-        },
-        Apuntes: {
-            price: "CLP$750",
-            items: [
-                {
-                    name: "Apuntes Álgebra",
-                    year: 2017,
-                    subject: "Álgebra",
-                    contents: ["Teoría", "Ejercicios"],
-                },
-                {
-                    name: "Apuntes Probabilidad",
-                    year: 2021,
-                    subject: "Estadística",
-                    contents: ["Teoría", "Ejemplos prácticos"],
-                },
-                {
-                    name: "Apuntes Física",
-                    year: 2018,
-                    subject: "Física",
-                    contents: ["Ondas", "Termodinámica"],
                 },
             ],
         },

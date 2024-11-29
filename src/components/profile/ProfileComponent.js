@@ -80,9 +80,6 @@ const ProfileComponent = () => {
           <li>
             <button className={styles.configButton}>Actualizar correo electrónico</button>
           </li>
-          <li>
-            <button className={styles.configButton}>Activar/Desactivar notificaciones</button>
-          </li>
         </ul>
       </div>
     </div>
