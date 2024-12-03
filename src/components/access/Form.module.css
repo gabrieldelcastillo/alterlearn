@@ -1,4 +1,3 @@
-/* Acceso.module.css */
 .container {
     display: flex;
     width: 100%;
@@ -62,3 +61,8 @@
     color: white;
   }
   
+  .background {
+    position: relative;
+    width: full;
+    height: screen;
+  }

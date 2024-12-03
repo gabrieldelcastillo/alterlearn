@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from './Form.module.css';
+import styles from './Form.module.css'; 
+import Background from './Background';
 
 export default function Form() {
   const [isRegister, setIsRegister] = useState(false);
@@ -30,6 +31,7 @@ export default function Form() {
 
   return (
     <div className={styles.container}>
+      <Background className="background"/>
       <div className={styles.formContainer}>
         <div className={styles.formContent}>
           <h2>{isRegister ? "Formulario de Registro" : "Formulario de Acceso"}</h2>
