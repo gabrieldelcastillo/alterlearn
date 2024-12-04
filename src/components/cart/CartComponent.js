@@ -142,7 +142,6 @@ const ShoppingCart = () => {
             <form onSubmit={handlePaymentSubmit} className="bg-white p-6 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold text-gray-800 mb-4">Payment Method</h2>
               <div className="space-y-4">
-                {/* New Debit Card Option */}
                 <div className="space-y-2">
                   <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
                     <input
