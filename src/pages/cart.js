@@ -171,24 +171,20 @@ const ShoppingCart = () => {
                                     <span className={`font-medium ${darkMode ? "text-white" : "text-gray-800"}`}>CLP${calculateSubtotal().toFixed(2)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>Tax (10%)</span>
+                                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>IVA (19%)</span>
                                     <span className={`font-medium ${darkMode ? "text-white" : "text-gray-800"}`}>CLP${tax.toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>Shipping</span>
-                                    <span className={`font-medium ${darkMode ? "text-white" : "text-gray-800"}`}>CLP${shipping.toFixed(2)}</span>
                                 </div>
                                 <div className="border-t pt-2 mt-2">
                                     <div className={`flex justify-between font-semibold text-lg ${darkMode ? "text-white" : "text-gray-800"}`}>
                                         <span>Total</span>
-                                        <span>${total.toFixed(2)}</span>
+                                        <span>CLP${total.toFixed(2)}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <form onSubmit={handlePaymentSubmit} className={`p-6 rounded-lg shadow-md ${darkMode ? "bg-gray-900 border border-white" : "bg-gray-50 border border-black"}`}>
-                            <h2 className={`text-xl font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-800"}`}>Payment Method</h2>
+                            <h2 className={`text-xl font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-800"}`}>Métodos de Pago</h2>
                             <div className="space-y-4">
                                 <div className="space-y-2">
                                     <label className={`flex items-center p-3 border rounded-lg cursor-pointer ${darkMode ? "hover:bg-gray-800 transition-colors text-gray-50" : "text-gray-800"}`}>

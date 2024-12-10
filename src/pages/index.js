@@ -250,7 +250,7 @@ const SearchInterface = () => {
                 className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
                 aria-label="User account"
               >
-                <FiUser className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} />
+                <Link href="/access"><FiUser className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} /></Link>
               </button>
             </div>
           </div>

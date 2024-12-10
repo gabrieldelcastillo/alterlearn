@@ -1,78 +1,109 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 const MatrixRain = () => {
-  const [drops, setDrops] = useState([]);
+  const POOL_SIZE = 300;
+  const GENERATION_INTERVAL = 30;
+  const UPDATE_INTERVAL = 16;
+  const VIEWPORT_BUFFER = 50;
 
-  const generateRandomChar = () => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const [drops, setDrops] = useState([]);
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  const chars = useMemo(() => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", []);
+
+  const generateRandomChar = useCallback(() => {
     return chars[Math.floor(Math.random() * chars.length)];
-  };
+  }, [chars]);
 
   const createDrop = useCallback(() => {
     return {
-      // Increased x-axis spread by multiplying by 1.5
-      x: Math.random() * window.innerWidth * 1.5,
+      x: Math.random() * dimensions.width,
       y: -20,
-      speed: (Math.random() * 2.6 + 1.3) * 1.6,
+      speed: Math.random() * 2 + 0.1,
       char: generateRandomChar(),
-      // Modified opacity to generate lower values (0.2 to 0.4 range)
-      opacity: Math.random() * 0.2 + 0.2,
-      id: Math.random().toString(36),
-      lastUpdate: Date.now()
+      opacity: Math.random() * 0.3 + 0.2,
+      id: Math.random().toString(36).substr(2, 9),
+      lastUpdate: Date.now(),
     };
+  }, [dimensions.width, generateRandomChar]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    // Updated interval to 25ms for more spacing between drops
+    if (drops.length >= POOL_SIZE) return;
+
     const dropGenerationInterval = setInterval(() => {
       setDrops(prevDrops => {
-        const newDrops = [...prevDrops];
-        newDrops.push(createDrop());
-        return newDrops;
+        if (prevDrops.length >= POOL_SIZE) return prevDrops;
+        return [...prevDrops, createDrop()];
       });
-    }, 25);
+    }, GENERATION_INTERVAL);
 
-    const updateInterval = setInterval(() => {
+    return () => clearInterval(dropGenerationInterval);
+  }, [drops.length, createDrop]);
+
+  useEffect(() => {
+    let animationFrameId;
+
+    const updateDrops = () => {
       setDrops(prevDrops => {
+        const currentTime = Date.now();
         return prevDrops
           .map(drop => {
-            if (drop.y > window.innerHeight) {
+            if (drop.y > dimensions.height + VIEWPORT_BUFFER) {
               return null;
             }
-            const currentTime = Date.now();
+
             const timeDiff = currentTime - drop.lastUpdate;
-            const shouldUpdateChar = timeDiff > (1000 + Math.random() * 2000);
+            const shouldUpdateChar = timeDiff > 1000;
 
             return {
               ...drop,
-              y: drop.y + drop.speed * (13 / 50),
+              y: drop.y + drop.speed,
               char: shouldUpdateChar ? generateRandomChar() : drop.char,
-              lastUpdate: shouldUpdateChar ? currentTime : drop.lastUpdate
+              lastUpdate: shouldUpdateChar ? currentTime : drop.lastUpdate,
             };
           })
           .filter(Boolean);
       });
-    }, 16);
+
+      animationFrameId = requestAnimationFrame(updateDrops);
+    };
+
+    animationFrameId = requestAnimationFrame(updateDrops);
 
     return () => {
-      clearInterval(dropGenerationInterval);
-      clearInterval(updateInterval);
+      cancelAnimationFrame(animationFrameId);
     };
-  }, [createDrop]);
+  }, [dimensions.height, generateRandomChar]);
 
   return (
-    <div className="relative w-full h-screen bg-gray-900 overflow-hidden" 
-         role="region" 
-         aria-label="Animated Matrix Rain Background">
+    <div
+      className="fixed inset-0 bg-gray-900 overflow-hidden pointer-events-none"
+      role="region"
+      aria-label="Animated Matrix Rain Background"
+    >
       {drops.map((drop) => (
         <div
           key={drop.id}
-          className="absolute text-white font-mono text-xl transform transition-all duration-200"
+          className="absolute text-white font-mono text-xl will-change-transform"
           style={{
-            left: `${drop.x}px`,
-            top: `${drop.y}px`,
+            transform: `translate(${drop.x}px, ${drop.y}px)`,
             opacity: drop.opacity,
-            textShadow: "0 0 8px rgba(255, 255, 255, 0.8)"
+            textShadow: "0 0 8px rgba(255, 255, 255, 0.8)",
           }}
           aria-hidden="true"
         >
