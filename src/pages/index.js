@@ -200,7 +200,7 @@ const SearchInterface = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex-shrink-0">
-              <h1 className={`text-xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>Alterlearn</h1>
+              <Link href="/"><h1 className={`text-xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>Alterlearn</h1></Link>
             </div>
 
             <div className="flex-1 max-w-2xl mx-4">
@@ -234,12 +234,15 @@ const SearchInterface = () => {
                   className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
                   aria-label="Shopping cart"
                 >
+                  <Link href="/cart">
                   <AiOutlineShoppingCart className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} />
                   {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-blue-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                      {cartItemCount}
-                    </span>
+                    
+                      <span className="absolute -top-1 -right-1 bg-blue-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                        {cartItemCount}
+                      </span>
                   )}
+                  </Link>
                 </button>
               </div>
 
@@ -345,8 +348,8 @@ const SearchInterface = () => {
               ))}
               <button
                 onClick={clearFilters}
-                className={`w-full py-2 px-4 rounded-lg shadow-sm transition-colors duration-200 ${darkMode 
-                  ? "bg-gray-700 hover:bg-gray-600 text-white" 
+                className={`w-full py-2 px-4 rounded-lg shadow-sm transition-colors duration-200 ${darkMode
+                  ? "bg-gray-700 hover:bg-gray-600 text-white"
                   : "bg-white hover:bg-gray-100 text-gray-800"} 
                   border ${darkMode ? "border-gray-600" : "border-gray-200"}`}
               >
