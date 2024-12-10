@@ -18,7 +18,6 @@ const SearchInterface = () => {
   const [selectedType, setSelectedType] = useState([]);
   const [selectedYear, setSelectedYear] = useState([]);
   const [selectedContent, setSelectedContent] = useState([]);
-  const [isPaused, setIsPaused] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -26,9 +25,9 @@ const SearchInterface = () => {
   const subjectScrollRef = useRef(null);
 
   const filters = {
-    career: ["Engineering", "Medicine", "Business", "Arts"],
-    type: ["Books", "Courses", "Tools", "Software"],
-    subject: ["Mathematics", "Physics", "Chemistry", "Biology"],
+    career: ["Ingeniería", "Medicina", "Economía", "Derecho"],
+    type: ["Certamen (con solución)", "Certamen (sin solución)", "Control", "Tareas", "Apuntes"],
+    subject: ["Matemáticas", "Física", "Química", "Biología"],
     year: ["2024", "2023", "2022", "2021"],
     content: ["Digital", "Physical", "Hybrid", "Subscription"]
   };
@@ -36,67 +35,15 @@ const SearchInterface = () => {
   const products = [
     {
       id: 1,
-      title: "Advanced Mathematics Textbook",
-      price: 59.99,
-      description: "Comprehensive guide for advanced mathematics concepts",
-      image: "images.unsplash.com/photo-1543002588-bfa74002ed7e"
-    },
-    {
-      id: 2,
-      title: "Digital Physics Course",
-      price: 129.99,
-      description: "Interactive online physics learning experience",
-      image: "images.unsplash.com/photo-1532094349884-543bc11b234d"
-    },
-    {
-      id: 3,
-      title: "Chemistry Lab Kit",
-      price: 89.99,
-      description: "Complete chemistry experimentation set",
-      image: "images.unsplash.com/photo-1532187863486-abf9dbad1b69"
-    },
-    {
-      id: 4,
-      title: "Business Management Course",
-      price: 199.99,
-      description: "Professional business management certification",
-      image: "images.unsplash.com/photo-1454165804606-c3d57bc86b40"
+      type: "Certamen (Con Solución)",
+      price: 1000,
+      year: 2019,
+      career: "Ingeniería Civil Informática",
+      subject: "Programación II",
+      teacher: "Rodrigo Olivares",
+      contents: ["Polimorfismo", "Herencia", "Abstracción", "Encapsulamiento"]
     }
   ];
-
-  useEffect(() => {
-    let animationFrameId;
-    const scrollSpeed = 0.5;
-
-    const scroll = () => {
-      if (!isPaused) {
-        if (careerScrollRef.current) {
-          careerScrollRef.current.scrollLeft += scrollSpeed;
-          if (
-            careerScrollRef.current.scrollLeft >=
-            careerScrollRef.current.scrollWidth - careerScrollRef.current.clientWidth
-          ) {
-            careerScrollRef.current.scrollLeft = 0;
-          }
-        }
-
-        if (subjectScrollRef.current) {
-          subjectScrollRef.current.scrollLeft -= scrollSpeed;
-          if (subjectScrollRef.current.scrollLeft <= 0) {
-            subjectScrollRef.current.scrollLeft =
-              subjectScrollRef.current.scrollWidth - subjectScrollRef.current.clientWidth;
-          }
-        }
-      }
-      animationFrameId = requestAnimationFrame(scroll);
-    };
-
-    animationFrameId = requestAnimationFrame(scroll);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [isPaused]);
 
   const toggleFilter = (filterName) => {
     setExpandedFilters(prev => ({
@@ -260,13 +207,27 @@ const SearchInterface = () => {
       <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8 space-y-4">
+            {/* Contenedor 1 */}
             <div
               ref={careerScrollRef}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              className="scroll-left overflow-x-auto whitespace-nowrap pb-4 mask-gradient-x"
+              className="flex space-x-4 overflow-hidden group whitespace-nowrap pb-4 pt-1 mask-gradient-x"
             >
-              <div className="inline-flex space-x-4">
+              {/* Elementos 1 */}
+              <div className="animate-loop-scroll-right flex space-x-4">
+                {[...filters.career, ...filters.career].map((career, index) => (
+                  <button
+                    key={`${career}-${index}`}
+                    onClick={() => handleCareerClick(career)}
+                    className={`px-6 py-2 rounded-full max-w-none ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"} 
+                      ${selectedCareer.includes(career) ? "ring-2 ring-blue-500" : ""} shadow-sm transition-all duration-200`}
+                  >
+                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>{career}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Elementos 2 */}
+              <div className="animate-loop-scroll-right flex space-x-4 aria-hidden">
                 {[...filters.career, ...filters.career].map((career, index) => (
                   <button
                     key={`${career}-${index}`}
@@ -279,14 +240,28 @@ const SearchInterface = () => {
                 ))}
               </div>
             </div>
-
+            
+            {/* Contenedor 2 */}
             <div
               ref={subjectScrollRef}
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              className="scroll-right overflow-x-auto whitespace-nowrap pb-4 mask-gradient-x"
+              className="flex space-x-4 overflow-hidden whitespace-nowrap pb-4 pt-1 placeholder:mask-gradient-x"
             >
-              <div className="inline-flex space-x-4">
+              {/* Elementos 2 1*/}
+              <div className="animate-loop-scroll-left flex space-x-4">
+                {[...filters.subject, ...filters.subject].map((subject, index) => (
+                  <button
+                    key={`${subject}-${index}`}
+                    onClick={() => handleSubjectClick(subject)}
+                    className={`px-6 py-2 rounded-full ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"} 
+                      ${selectedSubject.includes(subject) ? "ring-2 ring-blue-500" : ""} shadow-sm transition-all duration-200`}
+                  >
+                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>{subject}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Elementos 2 2 */}
+              <div className="animate-loop-scroll-left flex space-x-4 aria-hidden:">
                 {[...filters.subject, ...filters.subject].map((subject, index) => (
                   <button
                     key={`${subject}-${index}`}
@@ -300,7 +275,7 @@ const SearchInterface = () => {
               </div>
             </div>
           </div>
-
+          
           <div className="flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-64 space-y-4">
               {Object.entries(filters).map(([filterName, options]) => (
@@ -353,7 +328,7 @@ const SearchInterface = () => {
                   : "bg-white hover:bg-gray-100 text-gray-800"} 
                   border ${darkMode ? "border-gray-600" : "border-gray-200"}`}
               >
-                Clear Filters
+                Limpiar filtros
               </button>
             </div>
 
@@ -362,26 +337,29 @@ const SearchInterface = () => {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className={`rounded-lg shadow-sm border overflow-hidden transition-transform hover:transform hover:scale-105 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
+                    className={`w-72 h-72 rounded-lg shadow-sm border overflow-hidden transition-transform ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
                   >
-                    <img
-                      src={`https://${product.image}`}
-                      alt={product.title}
-                      className="w-full h-48 object-cover"
-                      onError={(e) => {
-                        e.target.src = "https://images.unsplash.com/photo-1560421683-6856ea585c78";
-                      }}
-                    />
                     <div className="p-4">
-                      <h3 className={`font-semibold text-lg mb-2 ${darkMode ? "text-white" : "text-black"}`}>
-                        {product.title}
+                      <h3 className={`font-semibold text-lg mb-2 text-center ${darkMode ? "text-white" : "text-black"}`}>
+                        {product.career}
                       </h3>
-                      <p className={`text-sm mb-4 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                        {product.description}
-                      </p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-lg font-bold text-blue-600">
-                          ${product.price}
+                      <h4 className={`mb-4 text-center ${darkMode ? "text-white" : "text-gray-600"}`}>
+                        {product.subject}
+                      </h4>
+                      <h4 className={`mb-4 text-center ${darkMode ? "text-white" : "text-gray-600"}`}>
+                        {product.type} {product.year}
+                      </h4>
+                      <h4 className={`mb-4 text-center ${darkMode ? "text-white" : "text-gray-600"}`}>
+                        {product.teacher}
+                      </h4>
+                      <ul className="inline-flex animate-loop-scrool-subjects">
+                        {product.contents.map((content) => (
+                          <li className={`space-x-4 px-1 ${darkMode ? "text-white" : "text-gray-600"}`}>{content}</li>
+                        ))}
+                      </ul>
+                      <div className="inline-flex space-x-4 justify-between items-center">
+                        <span className={`text-lg font-bold ${darkMode ? "text-amber-400" : "text-blue-600"}`}>
+                          CLP${product.price}
                         </span>
                         <button
                           className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
