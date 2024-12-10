@@ -6,11 +6,11 @@ const FileUploadComponent = () => {
   const [selectedPreview, setSelectedPreview] = useState(null);
   const [contentFields, setContentFields] = useState([{ id: 1, value: "" }]);
   const [formData, setFormData] = useState({
-    career: "",
-    subject: "",
-    teacher: "",
-    year: "",
-    type: ""
+    carrera: "",
+    asignatura: "",
+    profesor: "",
+    anio: "",
+    tipo: ""
   });
 
   const fileInputRef = useRef(null);
@@ -55,14 +55,13 @@ const FileUploadComponent = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Section */}
         <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
           <button
             onClick={() => fileInputRef.current.click()}
             className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
           >
             <FiUpload className="text-xl" />
-            Upload
+            Subir archivo
           </button>
           <input
             type="file"
@@ -84,7 +83,6 @@ const FileUploadComponent = () => {
           </div>
         </div>
 
-        {/* Middle Section */}
         <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-center">
           {selectedPreview ? (
             typeof selectedPreview === "string" && selectedPreview.startsWith("data:image") ? (
@@ -97,11 +95,10 @@ const FileUploadComponent = () => {
               <div className="text-gray-500">{selectedPreview}</div>
             )
           ) : (
-            <div className="text-gray-400">No file selected</div>
+            <div className="text-gray-400">No hay un archivo seleccionado</div>
           )}
         </div>
 
-        {/* Right Section */}
         <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
           {Object.entries(formData).map(([key, value]) => (
             <div key={key} className="space-y-1">
@@ -123,7 +120,7 @@ const FileUploadComponent = () => {
             <div key={field.id} className="flex gap-2">
               <div className="flex-1 space-y-1">
                 <label className="block text-sm font-medium text-gray-700">
-                  Content {index + 1}
+                  Contenido {index + 1}
                 </label>
                 <input
                   type="text"
@@ -155,7 +152,7 @@ const FileUploadComponent = () => {
           ))}
 
           <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors mt-6">
-            Publish
+            Publicar
           </button>
         </div>
       </div>
