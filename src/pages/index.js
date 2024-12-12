@@ -25,12 +25,15 @@ const SearchInterface = () => {
   const subjectScrollRef = useRef(null);
 
   const filters = {
-    career: ["Ingeniería", "Medicina", "Economía", "Derecho"],
     type: ["Certamen (con solución)", "Certamen (sin solución)", "Control", "Tareas", "Apuntes"],
+    career: ["Ingeniería", "Medicina", "Economía", "Derecho"],
     subject: ["Matemáticas", "Física", "Química", "Biología"],
+    teacher: ["Gabriel Astudillo", "Benjamín Serrano", "Rodrigo Olivares"],
     year: ["2024", "2023", "2022", "2021"],
     content: ["Digital", "Physical", "Hybrid", "Subscription"]
   };
+
+  const filtersNames = ["Tipo", "Carrera", "Asignatura", "Profesor", "Año", "Contenidos"];
 
   const products = [
     {
@@ -182,13 +185,13 @@ const SearchInterface = () => {
                   aria-label="Shopping cart"
                 >
                   <Link href="/cart">
-                  <AiOutlineShoppingCart className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} />
-                  {cartItemCount > 0 && (
-                    
+                    <AiOutlineShoppingCart className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} />
+                    {cartItemCount > 0 && (
+
                       <span className="absolute -top-1 -right-1 bg-blue-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
                         {cartItemCount}
                       </span>
-                  )}
+                    )}
                   </Link>
                 </button>
               </div>
@@ -240,7 +243,7 @@ const SearchInterface = () => {
                 ))}
               </div>
             </div>
-            
+
             {/* Contenedor 2 */}
             <div
               ref={subjectScrollRef}
@@ -275,10 +278,10 @@ const SearchInterface = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-64 space-y-4">
-              {Object.entries(filters).map(([filterName, options]) => (
+              {Object.entries(filters).map(([filterName, options], index) => (
                 <div
                   key={filterName}
                   className={`rounded-lg shadow-sm overflow-hidden ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"} border`}
@@ -289,7 +292,7 @@ const SearchInterface = () => {
                     aria-expanded={expandedFilters[filterName]}
                     aria-controls={`filter-${filterName}`}
                   >
-                    <span className="font-medium capitalize">{filterName}</span>
+                    <span className="font-medium">{filtersNames[index]}</span>
                     {expandedFilters[filterName] ? (
                       <FiChevronUp className={darkMode ? "text-gray-400" : "text-gray-500"} />
                     ) : (
@@ -337,7 +340,7 @@ const SearchInterface = () => {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className={`w-72 h-72 rounded-lg shadow-sm border overflow-hidden transition-transform ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
+                    className={`w-72 h-72 rounded-lg shadow-sm border relative transition-transform ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
                   >
                     <div className="p-4">
                       <h3 className={`font-semibold text-lg mb-2 text-center ${darkMode ? "text-white" : "text-black"}`}>
@@ -352,17 +355,47 @@ const SearchInterface = () => {
                       <h4 className={`mb-4 text-center ${darkMode ? "text-white" : "text-gray-600"}`}>
                         {product.teacher}
                       </h4>
-                      <ul className="inline-flex animate-loop-scrool-subjects">
-                        {product.contents.map((content) => (
-                          <li className={`space-x-4 px-1 ${darkMode ? "text-white" : "text-gray-600"}`}>{content}</li>
-                        ))}
-                      </ul>
-                      <div className="inline-flex space-x-4 justify-between items-center">
-                        <span className={`text-lg font-bold ${darkMode ? "text-amber-400" : "text-blue-600"}`}>
+                      <div className="relative">
+                        <button
+                          onClick={() => {
+                            const dropdown = document.getElementById(`dropdown-${product.id}`);
+                            dropdown.classList.toggle('hidden');
+                          }}
+                          className={`w-full text-center px-2 py-1 rounded ${darkMode ? "text-white hover:bg-gray-700" : "text-gray-600 hover:bg-gray-100"
+                            }`}
+                        >
+                          Contenidos
+                        </button>
+                        <ul
+                          id={`dropdown-${product.id}`}
+                          className={`hidden absolute z-50 w-full mt-1 py-1 rounded-lg shadow-lg transform translate-y-0 ${darkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"
+                            }`}
+                          style={{
+                            maxHeight: '200px',
+                            overflowY: 'auto',
+                            position: 'absolute',
+                            top: '100%',
+                            left: '0',
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                          }}
+                        >
+                          {product.contents.map((content, index) => (
+                            <li
+                              key={index}
+                              className={`px-2 py-1 ${darkMode ? "text-white hover:bg-gray-700" : "text-gray-600 hover:bg-gray-100"
+                                }`}
+                            >
+                              {content}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="inline-flex items-center mt-4 w-full">
+                        <span className={`text-lg font-bold flex-grow text-center ml-10 ${darkMode ? "text-amber-400" : "text-blue-600"}`}>
                           CLP${product.price}
                         </span>
                         <button
-                          className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
                           aria-label="Add to cart"
                         >
                           <AiOutlineShoppingCart className="text-xl" />
