@@ -1,0 +1,41 @@
+.background {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.dollarSign {
+  position: absolute;
+  bottom: -20px;
+  font-size: 24px;
+  animation: floatUp linear infinite;
+  opacity: 0.6;
+}
+
+.lightMode {
+  color: #f59e0b;
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.5),
+              0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.darkMode {
+  color: #22c55e;
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.5),
+              0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+}
