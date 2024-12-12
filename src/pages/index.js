@@ -20,6 +20,7 @@ const SearchInterface = () => {
   const [selectedContent, setSelectedContent] = useState([]);
   const [cartItemCount, setCartItemCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const careerScrollRef = useRef(null);
   const subjectScrollRef = useRef(null);
@@ -150,7 +151,7 @@ const SearchInterface = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex-shrink-0">
-              <Link href="/"><h1 className={`text-xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}>Alterlearn</h1></Link>
+              <Link href="/"><h1 className={`text-xl font-bold ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-900"}`}>Alterlearn</h1></Link>
             </div>
 
             <div className="flex-1 max-w-2xl mx-4">
@@ -159,10 +160,24 @@ const SearchInterface = () => {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full pl-10 pr-4 py-2 rounded-lg ${darkMode ? "bg-gray-700 text-white" : "bg-gray-100 text-gray-900"} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                  placeholder="Search..."
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => !searchQuery && setIsSearchFocused(false)}
+                  className={`w-full pl-10 pr-4 py-2 rounded-lg ${
+                    darkMode
+                      ? "bg-gray-700 text-white border-2 border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.3)]"
+                      : "bg-gray-100 text-gray-900 border-2 border-green-600"
+                  } focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300`}
+                  placeholder={isSearchFocused ? "Search..." : ""}
                 />
-                <FiSearch className={`absolute left-3 top-2.5 h-5 w-5 ${darkMode ? "text-gray-400" : "text-gray-500"}`} />
+                <FiSearch
+                  className={`absolute h-5 w-5 transition-all duration-300 transform ${
+                    darkMode ? "text-green-400" : "text-green-600"
+                  } ${
+                    isSearchFocused || searchQuery
+                      ? "left-3 top-2.5"
+                      : "left-1/2 top-2.5 -translate-x-1/2"
+                  }`}
+                />
               </div>
             </div>
 
@@ -185,7 +200,7 @@ const SearchInterface = () => {
                   aria-label="Shopping cart"
                 >
                   <Link href="/cart">
-                    <AiOutlineShoppingCart className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} />
+                    <AiOutlineShoppingCart className={`h-5 w-5 ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-600"}`} />
                     {cartItemCount > 0 && (
 
                       <span className="absolute -top-1 -right-1 bg-blue-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
@@ -200,7 +215,7 @@ const SearchInterface = () => {
                 className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
                 aria-label="User account"
               >
-                <Link href="/access"><FiUser className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} /></Link>
+                <Link href="/access"><FiUser className={`h-5 w-5 ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-600"}`} /></Link>
               </button>
             </div>
           </div>
