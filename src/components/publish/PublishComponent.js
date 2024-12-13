@@ -1,16 +1,16 @@
 import React, { useState, useRef } from "react";
 import { FiUpload, FiPlus, FiMinus } from "react-icons/fi";
 
-const FileUploadComponent = () => {
+const PublishComponent = ({ darkMode }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedPreview, setSelectedPreview] = useState(null);
   const [contentFields, setContentFields] = useState([{ id: 1, value: "" }]);
   const [formData, setFormData] = useState({
-    carrera: "",
-    asignatura: "",
-    profesor: "",
-    anio: "",
-    tipo: ""
+    career: "",
+    subject: "",
+    teacher: "",
+    year: "",
+    type: ""
   });
 
   const fileInputRef = useRef(null);
@@ -52,13 +52,35 @@ const FileUploadComponent = () => {
     setContentFields((prev) => prev.filter((field) => field.id !== id));
   };
 
+  const infoLabels = ["carrera", "asignatura", "profesor", "año", "tipo"];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
+    <div className={`h-screen overflow-hidden ${darkMode ? 'bg-transparent' : 'bg-transparent'} p-6`}>
+      <div className="h-[85vh] max-w-7xl mx-auto grid grid-cols-12 gap-6 place-items-center">
+        <div className={`col-span-4 col-start-5 bg-transparent backdrop-blur-sm bg-opacity-30 rounded-lg shadow-md p-4 overflow-y-auto relative 
+          animate-slide-in-left
+          ${darkMode 
+            ? 'border-2 border-green-500 shadow-[0_0_15px_rgba(74,222,128,0.5)] glow-green-500' 
+            : 'border-2 border-black shadow-[0_0_15px_rgba(0,0,0,0.3)] glow-black'
+          }
+          hover:shadow-lg transition-all duration-300 ease-in-out
+          ${darkMode ? 'hover:shadow-green-500/30' : 'hover:shadow-black/20'}
+          [box-shadow:0_0_15px_rgba(74,222,128,0.3)]
+        `}>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" 
+               style={{
+                 height: `${Math.min(80, Math.max(20, (selectedFiles.length + Object.keys(formData).length + contentFields.length) * 8))}px`,
+                 opacity: (selectedFiles.length + Object.keys(formData).length + contentFields.length) > 4 ? 0.1 : 0.05
+               }}
+          />
           <button
             onClick={() => fileInputRef.current.click()}
-            className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+            className={`w-full ${
+              darkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-black hover:bg-gray-900'
+            } text-white px-4 py-2 rounded-lg transition-all duration-300 
+            hover:scale-[1.02] active:scale-95
+            animate-bounce-in
+            flex items-center justify-center gap-2`}
           >
             <FiUpload className="text-xl" />
             Subir archivo
@@ -68,72 +90,73 @@ const FileUploadComponent = () => {
             ref={fileInputRef}
             onChange={handleFileUpload}
             className="hidden"
+            accept=".pdf,.jpg,.jpeg,.png"
             multiple
           />
+          
           <div className="mt-4 space-y-2">
             {selectedFiles.map((file, index) => (
               <div
                 key={index}
                 onClick={() => handleFileSelect(file)}
-                className="p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                className={`p-3 border rounded-lg cursor-pointer 
+                  animate-fade-in
+                  hover:scale-[1.01] active:scale-[0.99] transition-all duration-200
+                  ${darkMode 
+                    ? 'border-gray-700 hover:bg-gray-700/50' 
+                    : 'border-gray-200 hover:bg-gray-50'
+                  } ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 {file.name}
               </div>
             ))}
           </div>
-        </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6 flex items-center justify-center">
-          {selectedPreview ? (
-            typeof selectedPreview === "string" && selectedPreview.startsWith("data:image") ? (
-              <img
-                src={selectedPreview}
-                alt="Preview"
-                className="max-w-full max-h-[500px] object-contain"
-              />
-            ) : (
-              <div className="text-gray-500">{selectedPreview}</div>
-            )
-          ) : (
-            <div className="text-gray-400">No hay un archivo seleccionado</div>
-          )}
-        </div>
-
-        <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
-          {Object.entries(formData).map(([key, value]) => (
-            <div key={key} className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700 capitalize">
-                {key}
-              </label>
+          {Object.entries(formData).map(([key, value], index) => (
+            <div key={key} className="mt-4 animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
               <input
                 type="text"
                 name={key}
                 value={value}
                 onChange={handleInputChange}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
-                aria-label={key}
+                placeholder={infoLabels[index].charAt(0).toUpperCase() + infoLabels[index].slice(1)}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 
+                  hover:shadow-sm transition-all duration-200
+                  ${darkMode 
+                    ? 'bg-gray-700 border-gray-600 text-white focus:ring-green-500 focus:border-green-500' 
+                    : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500'
+                  } outline-none`}
+                aria-label={infoLabels[index]}
               />
             </div>
           ))}
 
           {contentFields.map((field, index) => (
-            <div key={field.id} className="flex gap-2">
-              <div className="flex-1 space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
-                  Contenido {index + 1}
-                </label>
+            <div key={field.id} className="flex gap-2 mt-4 animate-fade-in" 
+                 style={{ animationDelay: `${(index + Object.keys(formData).length) * 100}ms` }}>
+              <div className="flex-1">
                 <input
                   type="text"
                   value={field.value}
                   onChange={(e) => handleContentChange(field.id, e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-shadow"
+                  placeholder={`Contenido ${index + 1}`}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 ${
+                    darkMode 
+                      ? 'bg-gray-700 border-gray-600 text-white focus:ring-green-500 focus:border-green-500' 
+                      : 'bg-white border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500'
+                  } outline-none transition-shadow`}
                   aria-label={`Content ${index + 1}`}
                 />
               </div>
-              {index === contentFields.length - 1 && (
+              {contentFields.length < 10 && index === contentFields.length - 1 && (
                 <button
                   onClick={addContentField}
-                  className="self-end p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                  className={`self-end p-2 ${
+                    darkMode 
+                      ? 'text-green-400 hover:bg-gray-700' 
+                      : 'text-blue-600 hover:bg-blue-50'
+                  } rounded-lg transition-colors`}
                   aria-label="Add content field"
                 >
                   <FiPlus className="text-xl" />
@@ -142,7 +165,11 @@ const FileUploadComponent = () => {
               {contentFields.length > 1 && (
                 <button
                   onClick={() => removeContentField(field.id)}
-                  className="self-end p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                  className={`self-end p-2 ${
+                    darkMode 
+                      ? 'text-red-400 hover:bg-gray-700' 
+                      : 'text-red-600 hover:bg-red-50'
+                  } rounded-lg transition-colors`}
                   aria-label="Remove content field"
                 >
                   <FiMinus className="text-xl" />
@@ -151,7 +178,15 @@ const FileUploadComponent = () => {
             </div>
           ))}
 
-          <button className="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors mt-6">
+          <button className={`w-full ${
+            darkMode 
+              ? 'bg-green-600 hover:bg-green-700' 
+              : 'bg-black hover:bg-gray-900'
+          } text-white px-4 py-2 rounded-lg 
+          transition-all duration-300 
+          hover:scale-[1.02] active:scale-95
+          animate-pop
+          mt-6`}>
             Publicar
           </button>
         </div>
@@ -160,4 +195,4 @@ const FileUploadComponent = () => {
   );
 };
 
-export default FileUploadComponent;
+export default PublishComponent;

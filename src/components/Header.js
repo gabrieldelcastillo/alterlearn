@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiSearch, FiUser } from "react-icons/fi";
+import { FiSearch, FiUser, FiUpload } from "react-icons/fi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BsSun, BsMoon } from "react-icons/bs";
 import Link from "next/link";
@@ -29,21 +29,18 @@ const Header = ({ darkMode, setDarkMode }) => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => !searchQuery && setIsSearchFocused(false)}
-                className={`w-full pl-10 pr-4 py-2 rounded-lg ${
-                  darkMode
-                    ? "bg-gray-700 text-white border-2 border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.3)]"
-                    : "bg-gray-100 text-gray-900 border-2 border-black"
-                } focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300`}
+                className={`w-full pl-10 pr-4 py-2 rounded-lg ${darkMode
+                  ? "bg-gray-700 text-white border-2 border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.3)]"
+                  : "bg-gray-100 text-gray-900 border-2 border-black"
+                  } focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300`}
                 placeholder={isSearchFocused ? "Search..." : ""}
               />
               <FiSearch
-                className={`absolute h-5 w-5 transition-all duration-300 transform ${
-                  darkMode ? "text-green-400" : "text-gray-600"
-                } ${
-                  isSearchFocused || searchQuery
+                className={`absolute h-5 w-5 transition-all duration-300 transform ${darkMode ? "text-green-400" : "text-gray-600"
+                  } ${isSearchFocused || searchQuery
                     ? "left-3 top-2.5"
                     : "left-1/2 top-2.5 -translate-x-1/2"
-                }`}
+                  }`}
               />
             </div>
           </div>
@@ -59,6 +56,14 @@ const Header = ({ darkMode, setDarkMode }) => {
               ) : (
                 <BsMoon className="h-5 w-5 text-gray-600" />
               )}
+            </button>
+            <button
+              className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
+              aria-label="Upload content"
+            >
+              <Link href="/publish">
+                <FiUpload className={`h-5 w-5 ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-600"}`} />
+              </Link>
             </button>
 
             <div className="relative">
