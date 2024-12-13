@@ -32,18 +32,68 @@ export default function Form() {
     setHasSpecialChar(/[!@#$%^&*(),.?":{}|<>]/.test(password));
   }, [password]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === '1234') {
-      router.push("/admin");
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_VITE_API_URL}/alterlearn/logearse`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre_usuario: username, contrasenia: password }), 
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert('Logeo exitoso');
+        // Puedes redirigir al usuario o hacer algo más aquí
+        //router.push('/login'); // Redirigir a la página de inicio de sesión o donde desees
+      } else {
+        alert(data.message || 'Error en el logeo');
+      }
+    } catch (error) {
+      alert('Error en el logeo');
     }
-    router.push('/search');
+
+    //router.push('/search'); ahi despues ves como lo pusehas
   };
 
-  const handleRegister = (e) => {
+
+
+
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    alert('Usuario registrado');
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_VITE_API_URL}/alterlearn/registrarse`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre_usuario: username, correo_electronico: email, contrasenia: password }), 
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert('Registro exitoso');
+        // Puedes redirigir al usuario o hacer algo más aquí
+        //router.push('/login'); // Redirigir a la página de inicio de sesión o donde desees
+      } else {
+        alert(data.message || 'Error en el registro');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error en el registro');
+    }
   };
+
+
+    
+
+
 
   const ValidationMessage = ({ isValid, message }) => (
     <motion.p
