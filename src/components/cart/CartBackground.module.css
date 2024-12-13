@@ -11,7 +11,7 @@
 
 .dollarSign {
   position: absolute;
-  bottom: -20px;
+  bottom: -50px;
   font-size: 24px;
   animation: floatUp linear infinite;
   opacity: 0.6;
@@ -32,10 +32,16 @@
 @keyframes floatUp {
   from {
     transform: translateY(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  95% {
     opacity: 0.6;
   }
   to {
-    transform: translateY(-100vh);
+    transform: translateY(-120vh);
     opacity: 0;
   }
 }

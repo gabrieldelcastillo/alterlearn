@@ -32,13 +32,15 @@ const AdminBackground = ({ darkMode }) => {
           };
 
           let newDirection = snake.direction;
-          if (Math.random() < 0.05) {
+          if (Math.random() < 0.15) {
             const directions = [
               { x: 1, y: 0 },
               { x: -1, y: 0 },
               { x: 0, y: 1 },
               { x: 0, y: -1 }
-            ];
+            ].filter(dir => 
+              !(dir.x === -snake.direction.x && dir.y === -snake.direction.y)
+            );
             newDirection = directions[Math.floor(Math.random() * directions.length)];
           }
 

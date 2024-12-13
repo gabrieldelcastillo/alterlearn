@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 const MatrixRain = () => {
-  const POOL_SIZE = 300;
-  const GENERATION_INTERVAL = 30;
-  const UPDATE_INTERVAL = 16;
+  const POOL_SIZE = 100;
+  const GENERATION_INTERVAL = 100;
   const VIEWPORT_BUFFER = 50;
 
-  const [drops, setDrops] = useState([]);
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -31,17 +29,25 @@ const MatrixRain = () => {
   }, [dimensions.width, generateRandomChar]);
 
   useEffect(() => {
+    let timeoutId;
     const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        setDimensions({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }, 150);
     };
 
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
+  const [drops, setDrops] = useState([]);
   useEffect(() => {
     if (drops.length >= POOL_SIZE) return;
 
@@ -56,54 +62,61 @@ const MatrixRain = () => {
   }, [drops.length, createDrop]);
 
   useEffect(() => {
-    let animationFrameId;
+    let lastUpdate = 0;
+    const minInterval = 16;
 
-    const updateDrops = () => {
-      setDrops(prevDrops => {
-        const currentTime = Date.now();
-        return prevDrops
-          .map(drop => {
-            if (drop.y > dimensions.height + VIEWPORT_BUFFER) {
-              return null;
-            }
+    const updateDrops = (timestamp) => {
+      if (timestamp - lastUpdate >= minInterval) {
+        lastUpdate = timestamp;
+        
+        setDrops(prevDrops => {
+          const currentTime = Date.now();
+          return prevDrops
+            .filter(drop => drop.y <= dimensions.height + VIEWPORT_BUFFER)
+            .map(drop => {
+              const timeDiff = currentTime - drop.lastUpdate;
+              const shouldUpdateChar = timeDiff > 1000;
 
-            const timeDiff = currentTime - drop.lastUpdate;
-            const shouldUpdateChar = timeDiff > 1000;
-
-            return {
-              ...drop,
-              y: drop.y + drop.speed,
-              char: shouldUpdateChar ? generateRandomChar() : drop.char,
-              lastUpdate: shouldUpdateChar ? currentTime : drop.lastUpdate,
-            };
-          })
-          .filter(Boolean);
-      });
+              return {
+                ...drop,
+                y: drop.y + drop.speed,
+                char: shouldUpdateChar ? generateRandomChar() : drop.char,
+                lastUpdate: shouldUpdateChar ? currentTime : drop.lastUpdate,
+              };
+            });
+        });
+      }
 
       animationFrameId = requestAnimationFrame(updateDrops);
     };
 
-    animationFrameId = requestAnimationFrame(updateDrops);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
+    let animationFrameId = requestAnimationFrame(updateDrops);
+    return () => cancelAnimationFrame(animationFrameId);
   }, [dimensions.height, generateRandomChar]);
+
+  const containerStyle = useMemo(() => ({
+    position: 'fixed',
+    inset: 0,
+    backgroundColor: '#111827',
+    overflow: 'hidden',
+    pointerEvents: 'none',
+  }), []);
 
   return (
     <div
-      className="fixed inset-0 bg-gray-900 overflow-hidden pointer-events-none"
+      style={containerStyle}
       role="region"
       aria-label="Animated Matrix Rain Background"
     >
       {drops.map((drop) => (
         <div
           key={drop.id}
-          className="absolute text-white font-mono text-xl will-change-transform"
+          className="absolute text-white font-mono text-xl"
           style={{
-            transform: `translate(${drop.x}px, ${drop.y}px)`,
+            transform: `translate3d(${drop.x}px, ${drop.y}px, 0)`,
             opacity: drop.opacity,
             textShadow: "0 0 8px rgba(255, 255, 255, 0.8)",
+            willChange: "transform",
           }}
           aria-hidden="true"
         >
@@ -114,4 +127,4 @@ const MatrixRain = () => {
   );
 };
 
-export default MatrixRain;
+export default React.memo(MatrixRain);
