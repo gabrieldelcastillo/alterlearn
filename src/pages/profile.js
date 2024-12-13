@@ -10,6 +10,7 @@ import ProfileSection from '../components/profile/ProfileSection';
 import Purchases from '../components/profile/Purchases';
 import Favorite from '../components/profile/Favorite';
 import Settings from '../components/profile/Settings';
+import ProfileBackground from '../components/profile/ProfileBackground';
 
 function Sidebar({ activeSection, setActiveSection, darkMode }) {
     const menuItems = [
@@ -104,28 +105,31 @@ export default function Dashboard() {
 
     return (
         <div className={`
-      min-h-screen w-full 
-      ${darkMode ? 'bg-gray-900' : 'bg-white'}
+      min-h-screen w-full relative 
+      ${darkMode ? 'bg-transparent' : 'bg-transparent'}
       transition-colors duration-300
     `}>
-            <Header darkMode={darkMode} setDarkMode={setDarkMode} />
-            <Sidebar
-                activeSection={activeSection}
-                setActiveSection={setActiveSection}
-                darkMode={darkMode}
-            />
-            {activeSection === 'profile' && (
-                <ProfileSection darkMode={darkMode} />
-            )}
-            {activeSection === 'purchases' && (
-                <Purchases darkMode={darkMode} />
-            )}
-            {activeSection === 'favorites' && (
-                <Favorite darkMode={darkMode} />
-            )}
-            {activeSection === 'settings' && (
-                <Settings darkMode={darkMode} />
-            )}
+            <ProfileBackground darkMode={darkMode} />
+            <div className="relative z-10">
+                <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+                <Sidebar
+                    activeSection={activeSection}
+                    setActiveSection={setActiveSection}
+                    darkMode={darkMode}
+                />
+                {activeSection === 'profile' && (
+                    <ProfileSection darkMode={darkMode} />
+                )}
+                {activeSection === 'purchases' && (
+                    <Purchases darkMode={darkMode} />
+                )}
+                {activeSection === 'favorites' && (
+                    <Favorite darkMode={darkMode} />
+                )}
+                {activeSection === 'settings' && (
+                    <Settings darkMode={darkMode} />
+                )}
+            </div>
         </div>
     );
 };
