@@ -55,7 +55,7 @@ const Header = ({ darkMode, setDarkMode }) => {
               aria-label="Toggle dark mode"
             >
               {darkMode ? (
-                <BsSun className="h-5 w-5 text-yellow-400" />
+                <BsSun className="h-5 w-5 text-amber-400 drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]" />
               ) : (
                 <BsMoon className="h-5 w-5 text-gray-600" />
               )}

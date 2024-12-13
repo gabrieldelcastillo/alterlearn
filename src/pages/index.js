@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FiChevronDown, FiChevronUp, FiSearch, FiUser } from "react-icons/fi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { BsSun, BsMoon } from "react-icons/bs";
-import Link from "next/link";
+import Header from "../components/Header";
+import IndexBackground from "../components/index/IndexBackground";
 
 const SearchInterface = () => {
   const [expandedFilters, setExpandedFilters] = useState({
@@ -54,10 +54,6 @@ const SearchInterface = () => {
       ...prev,
       [filterName]: !prev[filterName]
     }));
-  };
-
-  const handleDarkModeToggle = () => {
-    setDarkMode(!darkMode);
   };
 
   const handleCareerClick = (career) => {
@@ -147,90 +143,18 @@ const SearchInterface = () => {
 
   return (
     <div className={`min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
-      <header className={`sticky top-0 z-50 ${darkMode ? "bg-gray-800" : "bg-white"} shadow-md`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex-shrink-0">
-              <Link href="/"><h1 className={`text-xl font-bold ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-900"}`}>Alterlearn</h1></Link>
-            </div>
-
-            <div className="flex-1 max-w-2xl mx-4">
-              <div className="relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => !searchQuery && setIsSearchFocused(false)}
-                  className={`w-full pl-10 pr-4 py-2 rounded-lg ${
-                    darkMode
-                      ? "bg-gray-700 text-white border-2 border-green-400 shadow-[0_0_10px_rgba(74,222,128,0.3)]"
-                      : "bg-gray-100 text-gray-900 border-2 border-gray-900"
-                  } focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-300`}
-                  placeholder={isSearchFocused ? "Search..." : ""}
-                />
-                <FiSearch
-                  className={`absolute h-5 w-5 transition-all duration-300 transform ${
-                    darkMode ? "text-green-400" : "text-gray-900"
-                  } ${
-                    isSearchFocused || searchQuery
-                      ? "left-3 top-2.5"
-                      : "left-1/2 top-2.5 -translate-x-1/2"
-                  }`}
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={handleDarkModeToggle}
-                className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
-                aria-label="Toggle dark mode"
-              >
-                {darkMode ? (
-                  <BsSun className="h-5 w-5 text-yellow-400" />
-                ) : (
-                  <BsMoon className="h-5 w-5 text-gray-600" />
-                )}
-              </button>
-
-              <div className="relative">
-                <button
-                  className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
-                  aria-label="Shopping cart"
-                >
-                  <Link href="/cart">
-                    <AiOutlineShoppingCart className={`h-5 w-5 ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-600"}`} />
-                    {cartItemCount > 0 && (
-
-                      <span className="absolute -top-1 -right-1 bg-blue-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                        {cartItemCount}
-                      </span>
-                    )}
-                  </Link>
-                </button>
-              </div>
-
-              <button
-                className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
-                aria-label="User account"
-              >
-                <Link href="/access"><FiUser className={`h-5 w-5 ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-600"}`} /></Link>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+      <div className="absolute inset-0 z-0">
+        <IndexBackground darkMode={darkMode} />
+      </div>
 
       <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8 space-y-4">
-            {/* Contenedor 1 */}
             <div
               ref={careerScrollRef}
               className="flex space-x-4 overflow-hidden group whitespace-nowrap pb-4 pt-1 mask-gradient-x"
             >
-              {/* Elementos 1 */}
               <div className="animate-loop-scroll-right flex space-x-4">
                 {[...filters.career, ...filters.career].map((career, index) => (
                   <button
@@ -244,7 +168,6 @@ const SearchInterface = () => {
                 ))}
               </div>
 
-              {/* Elementos 2 */}
               <div className="animate-loop-scroll-right flex space-x-4 aria-hidden">
                 {[...filters.career, ...filters.career].map((career, index) => (
                   <button
@@ -259,12 +182,10 @@ const SearchInterface = () => {
               </div>
             </div>
 
-            {/* Contenedor 2 */}
             <div
               ref={subjectScrollRef}
               className="flex space-x-4 overflow-hidden whitespace-nowrap pb-4 pt-1 placeholder:mask-gradient-x"
             >
-              {/* Elementos 2 1*/}
               <div className="animate-loop-scroll-left flex space-x-4">
                 {[...filters.subject, ...filters.subject].map((subject, index) => (
                   <button
@@ -278,7 +199,6 @@ const SearchInterface = () => {
                 ))}
               </div>
 
-              {/* Elementos 2 2 */}
               <div className="animate-loop-scroll-left flex space-x-4 aria-hidden:">
                 {[...filters.subject, ...filters.subject].map((subject, index) => (
                   <button
@@ -295,7 +215,7 @@ const SearchInterface = () => {
           </div>
 
           <div className="flex flex-col md:flex-row gap-8">
-            <div className="w-full md:w-64 space-y-4">
+            <div className="w-full md:w-64 space-y-4 relative z-10">
               {Object.entries(filters).map(([filterName, options], index) => (
                 <div
                   key={filterName}

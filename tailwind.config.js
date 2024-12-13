@@ -19,6 +19,8 @@ module.exports = {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'pulse-slower': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'fly': 'fly 10s linear infinite',
+        'slide-down': 'slideDown 0.3s ease-out',
+        'slide-up': 'slideUp 0.3s ease-out',
       },
       keyframes: {
         "loop-scroll-right": {
@@ -33,6 +35,14 @@ module.exports = {
           '0%': { transform: 'translateY(0) translateX(0)' },
           '50%': { transform: 'translateY(-20px) translateX(20px)' },
           '100%': { transform: 'translateY(0) translateX(0)' },
+        },
+        slideDown: {
+          '0%': { transform: 'translateY(-10px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(0)', opacity: '1' },
+          '100%': { transform: 'translateY(-10px)', opacity: '0' },
         },
       },
     },

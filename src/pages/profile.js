@@ -4,21 +4,14 @@ import {
     ShoppingBagIcon,
     HeartIcon,
     CogIcon,
-    SunIcon,
-    MoonIcon
 } from '@heroicons/react/24/outline'
-import Link from 'next/link';
-import { FiChevronDown, FiChevronUp, FiSearch, FiUser } from "react-icons/fi";
-import { BsSun, BsMoon } from "react-icons/bs";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import Header from '../components/Header';
+import ProfileSection from '../components/profile/ProfileSection';
+import Purchases from '../components/profile/Purchases';
+import Favorite from '../components/profile/Favorite';
+import Settings from '../components/profile/Settings';
 
-function Sidebar({ activeSection, setActiveSection, theme }) {
-    const [darkMode, setDarkMode] = useState(false);
-
-    const handleDarkModeToggle = () => {
-        setDarkMode(!darkMode);
-    };
-
+function Sidebar({ activeSection, setActiveSection, darkMode }) {
     const menuItems = [
         {
             icon: <UserCircleIcon className="w-6 h-6" />,
@@ -26,56 +19,73 @@ function Sidebar({ activeSection, setActiveSection, theme }) {
             section: 'profile'
         },
         {
-            icon: <ShoppingBagIcon className="w-6 h-6" />,
+            icon: <ShoppingBagIcon className={`w-6 h-6 ${activeSection === 'purchases' ? 'animate-bounce' : ''}`} />,
             label: 'Compras',
             section: 'purchases'
         },
         {
-            icon: <HeartIcon className="w-6 h-6" />,
+            icon: <HeartIcon className={`w-6 h-6 ${activeSection === 'favorites' ? 'animate-ping' : ''}`} />,
             label: 'Favoritos',
             section: 'favorites'
         },
         {
-            icon: <CogIcon className="w-6 h-6" />,
+            icon: <CogIcon className={`w-6 h-6 ${activeSection === 'settings' ? 'animate-spin' : ''}`} />,
             label: 'Configuración',
             section: 'settings'
         }
     ]
 
     return (
-        <div className={`
-      h-full bg-white dark:bg-gray-900 
-      border-b-2 border-green-600 
-      shadow-2xl transition-all duration-300
-      ${darkMode ? 'dark:border-green-400 dark:shadow-green-600/30' : ''}
-    `}>
+        <div className={`h-full border-b-2 ${darkMode ? 'border-green-400 bg-gray-900' : 'border-black bg-white'} transition-all duration-300`}>
             <nav className="w-full grid grid-cols-4">
                 {menuItems.map((item) => (
                     <button
                         key={item.section}
                         onClick={() => setActiveSection(item.section)}
-                        className={`
-              flex flex-col items-center justify-center p-4 w-full
-              hover:bg-green-50 dark:hover:bg-gray-800 
-              transition-all duration-300
-              ${activeSection === item.section
-                                ? 'bg-green-100 dark:bg-gray-800 border-b-4 border-green-600 dark:border-green-400'
+                        className={`flex flex-col items-center justify-center p-4 w-full ${darkMode ? 'hover:bg-gray-900' : 'hover:bg-gray-100'} transition-all duration-300 
+                            ${activeSection === item.section ?
+                                (darkMode ? 
+                                    `bg-gray-900 border-b-4 ${
+                                        item.section === 'purchases' ? 'border-white' :
+                                        item.section === 'favorites' ? 'border-red-400' :
+                                        item.section === 'settings' ? 'border-cyan-400' :
+                                        'border-green-400'
+                                    }` : 
+                                    `bg-gray-100 border-b-4 border-black`
+                                )
                                 : 'border-b-4 border-transparent'}
             `}
                     >
-                        <span className={`
-              mb-2
-              ${activeSection === item.section
-                                ? 'text-green-700 dark:text-green-400'
-                                : 'text-gray-600 dark:text-gray-400'}
-            `}>
+                        <span className={`mb-2 ${activeSection === item.section ?
+                            (darkMode ? 
+                                (item.section === 'purchases' ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]' :
+                                item.section === 'favorites' ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.9)]' :
+                                item.section === 'settings' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)]' :
+                                'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.9)]')
+                                : 'text-black')
+                            : (darkMode ? 
+                                (item.section === 'purchases' ? 'text-white' :
+                                item.section === 'favorites' ? 'text-red-400' :
+                                item.section === 'settings' ? 'text-cyan-400' :
+                                'text-green-400')
+                                : 'text-gray-600')}`}>
                             {item.icon}
                         </span>
                         <span className={`
               font-medium text-center
               ${activeSection === item.section
-                                ? 'text-green-700 dark:text-green-400'
-                                : 'text-gray-700 dark:text-gray-300'}
+                                ? (darkMode ? 
+                                    (item.section === 'purchases' ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]' :
+                                    item.section === 'favorites' ? 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.9)]' :
+                                    item.section === 'settings' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.9)]' :
+                                    'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.9)]')
+                                    : 'text-black')
+                                : (darkMode ? 
+                                    (item.section === 'purchases' ? 'text-white' :
+                                    item.section === 'favorites' ? 'text-red-400' :
+                                    item.section === 'settings' ? 'text-cyan-400' :
+                                    'text-green-400')
+                                    : 'text-gray-600')}
             `}>
                             {item.label}
                         </span>
@@ -87,15 +97,10 @@ function Sidebar({ activeSection, setActiveSection, theme }) {
 };
 
 export default function Dashboard() {
-    const [theme, setTheme] = useState('light')
     const [activeSection, setActiveSection] = useState('profile');
     const [searchQuery, setSearchQuery] = useState("");
     const [cartItemCount, setCartItemCount] = useState(0);
     const [darkMode, setDarkMode] = useState(false);
-     
-    const handleDarkModeToggle = () => {
-        setDarkMode(!darkMode);
-    };
 
     return (
         <div className={`
@@ -103,71 +108,24 @@ export default function Dashboard() {
       ${darkMode ? 'bg-gray-900' : 'bg-white'}
       transition-colors duration-300
     `}>
-            <header className={`sticky top-0 z-50 ${darkMode ? "bg-gray-900 border-b-2 border-b-green-700 shadow-green-700/30" : "bg-white"} shadow-md`}>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        <div className="flex-shrink-0">
-                            <Link href="/"><h1 className={`text-xl font-bold ${darkMode ? "text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] transition-all duration-300" : "text-gray-900"}`}>Alterlearn</h1></Link>
-                        </div>
-
-                        <div className="flex-1 max-w-2xl mx-4">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className={`w-full pl-10 pr-4 py-2 rounded-lg ${darkMode ? "bg-gray-700 text-white" : "bg-gray-100 text-gray-900"} focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                                    placeholder="Search..."
-                                />
-                                <FiSearch className={`absolute left-3 top-2.5 h-5 w-5 ${darkMode ? "text-gray-400" : "text-gray-500"}`} />
-                            </div>
-                        </div>
-
-                        <div className="flex items-center space-x-4">
-                            <button
-                                onClick={handleDarkModeToggle}
-                                className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
-                                aria-label="Toggle dark mode"
-                            >
-                                {darkMode ? (
-                                    <BsSun className="h-5 w-5 text-yellow-400" />
-                                ) : (
-                                    <BsMoon className="h-5 w-5 text-gray-600" />
-                                )}
-                            </button>
-
-                            <div className="relative">
-                                <button
-                                    className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
-                                    aria-label="Shopping cart"
-                                >
-                                    <Link href="/cart">
-                                        <AiOutlineShoppingCart className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} />
-                                        {cartItemCount > 0 && (
-
-                                            <span className="absolute -top-1 -right-1 bg-blue-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                                                {cartItemCount}
-                                            </span>
-                                        )}
-                                    </Link>
-                                </button>
-                            </div>
-
-                            <button
-                                className={`p-2 rounded-lg ${darkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}`}
-                                aria-label="User account"
-                            >
-                                <Link href="/access"><FiUser className={`h-5 w-5 ${darkMode ? "text-white" : "text-gray-600"}`} /></Link>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <Header darkMode={darkMode} setDarkMode={setDarkMode} />
             <Sidebar
                 activeSection={activeSection}
                 setActiveSection={setActiveSection}
-                theme={theme}
+                darkMode={darkMode}
             />
+            {activeSection === 'profile' && (
+                <ProfileSection darkMode={darkMode} />
+            )}
+            {activeSection === 'purchases' && (
+                <Purchases darkMode={darkMode} />
+            )}
+            {activeSection === 'favorites' && (
+                <Favorite darkMode={darkMode} />
+            )}
+            {activeSection === 'settings' && (
+                <Settings darkMode={darkMode} />
+            )}
         </div>
     );
 };
