@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSearch, FiUser, FiUpload } from "react-icons/fi";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { BsSun, BsMoon } from "react-icons/bs";
@@ -9,8 +9,17 @@ const Header = ({ darkMode, setDarkMode }) => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
 
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode !== null) {
+      setDarkMode(JSON.parse(savedDarkMode));
+    }
+  }, []);
+
   const handleDarkModeToggle = () => {
-    setDarkMode(!darkMode);
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    localStorage.setItem('darkMode', JSON.stringify(newDarkMode));
   };
 
   return (

@@ -141,6 +141,18 @@ const SearchInterface = () => {
     setSelectedContent([]);
   };
 
+  const getFilterColor = (filterName) => {
+    switch (filterName) {
+      case 'type': return 'white';
+      case 'career': return 'green';
+      case 'subject': return 'fuchsia';
+      case 'teacher': return 'red';
+      case 'year': return 'cyan';
+      case 'content': return 'green';
+      default: return 'white';
+    }
+  };
+
   return (
     <div className={`min-h-screen ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
       <Header darkMode={darkMode} setDarkMode={setDarkMode} />
@@ -150,88 +162,58 @@ const SearchInterface = () => {
 
       <div className="p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8 space-y-4">
-            <div
-              ref={careerScrollRef}
-              className="flex space-x-4 overflow-hidden group whitespace-nowrap pb-4 pt-1 mask-gradient-x"
-            >
-              <div className="animate-loop-scroll-right flex space-x-4">
-                {[...filters.career, ...filters.career].map((career, index) => (
-                  <button
-                    key={`${career}-${index}`}
-                    onClick={() => handleCareerClick(career)}
-                    className={`px-6 py-2 rounded-full max-w-none ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"} 
-                      ${selectedCareer.includes(career) ? "ring-2 ring-blue-500" : ""} shadow-sm transition-all duration-200`}
-                  >
-                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>{career}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="animate-loop-scroll-right flex space-x-4 aria-hidden">
-                {[...filters.career, ...filters.career].map((career, index) => (
-                  <button
-                    key={`${career}-${index}`}
-                    onClick={() => handleCareerClick(career)}
-                    className={`px-6 py-2 rounded-full ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"} 
-                      ${selectedCareer.includes(career) ? "ring-2 ring-blue-500" : ""} shadow-sm transition-all duration-200`}
-                  >
-                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>{career}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div
-              ref={subjectScrollRef}
-              className="flex space-x-4 overflow-hidden whitespace-nowrap pb-4 pt-1 placeholder:mask-gradient-x"
-            >
-              <div className="animate-loop-scroll-left flex space-x-4">
-                {[...filters.subject, ...filters.subject].map((subject, index) => (
-                  <button
-                    key={`${subject}-${index}`}
-                    onClick={() => handleSubjectClick(subject)}
-                    className={`px-6 py-2 rounded-full ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"} 
-                      ${selectedSubject.includes(subject) ? "ring-2 ring-blue-500" : ""} shadow-sm transition-all duration-200`}
-                  >
-                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>{subject}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="animate-loop-scroll-left flex space-x-4 aria-hidden:">
-                {[...filters.subject, ...filters.subject].map((subject, index) => (
-                  <button
-                    key={`${subject}-${index}`}
-                    onClick={() => handleSubjectClick(subject)}
-                    className={`px-6 py-2 rounded-full ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-white hover:bg-gray-100"} 
-                      ${selectedSubject.includes(subject) ? "ring-2 ring-blue-500" : ""} shadow-sm transition-all duration-200`}
-                  >
-                    <span className={`${darkMode ? "text-white" : "text-gray-800"}`}>{subject}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
           <div className="flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-64 space-y-4 relative z-10">
               {Object.entries(filters).map(([filterName, options], index) => (
                 <div
                   key={filterName}
-                  className={`rounded-lg shadow-sm overflow-hidden ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"} border`}
+                  className={`rounded-lg shadow-sm overflow-hidden ${darkMode 
+                    ? `bg-gray-800 border-${getFilterColor(filterName)}-400` 
+                    : "bg-white border-gray-200"} border ${darkMode 
+                    ? `drop-shadow-[0_0_8px_rgba(${
+                      getFilterColor(filterName) === 'green' ? '74,222,128' :
+                      getFilterColor(filterName) === 'fuchsia' ? '232,121,249' :
+                      getFilterColor(filterName) === 'red' ? '248,113,113' :
+                      getFilterColor(filterName) === 'cyan' ? '34,211,238' :
+                      '255,255,255'
+                    },0.7)]` 
+                    : ""}`}
                 >
                   <button
                     onClick={() => toggleFilter(filterName)}
-                    className={`w-full px-4 py-3 flex justify-between items-center text-left focus:outline-none ${darkMode ? "hover:bg-gray-700 text-white" : "hover:bg-gray-50 text-black"}`}
+                    className={`w-full px-4 py-3 flex justify-between items-center text-left focus:outline-none ${
+                      darkMode 
+                        ? `hover:bg-gray-700 text-${getFilterColor(filterName)}-400` 
+                        : "hover:bg-gray-50 text-black"
+                    }`}
                     aria-expanded={expandedFilters[filterName]}
                     aria-controls={`filter-${filterName}`}
                   >
-                    <span className="font-medium">{filtersNames[index]}</span>
+                    <span className={`font-medium ${darkMode 
+                      ? filterName === 'type' 
+                        ? 'text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]'
+                        : `text-${getFilterColor(filterName)}-400 drop-shadow-[0_0_8px_rgba(${
+                          getFilterColor(filterName) === 'green' ? '74,222,128' :
+                          getFilterColor(filterName) === 'fuchsia' ? '232,121,249' :
+                          getFilterColor(filterName) === 'red' ? '248,113,113' :
+                          getFilterColor(filterName) === 'cyan' ? '34,211,238' :
+                          '255,255,255'
+                        },0.7)]`
+                      : ""}`}>
+                      {filtersNames[index]}
+                    </span>
                     {expandedFilters[filterName] ? (
-                      <FiChevronUp className={darkMode ? "text-gray-400" : "text-gray-500"} />
+                      <FiChevronUp className={`${darkMode 
+                        ? filterName === 'type'
+                          ? 'text-white'
+                          : `text-${getFilterColor(filterName)}-400` 
+                        : "text-gray-500"}`} />
                     ) : (
-                      <FiChevronDown className={darkMode ? "text-gray-400" : "text-gray-500"} />
+                      <FiChevronDown className={`${darkMode 
+                        ? filterName === 'type'
+                          ? 'text-white'
+                          : `text-${getFilterColor(filterName)}-400` 
+                        : "text-gray-500"}`} />
                     )}
                   </button>
                   {expandedFilters[filterName] && (
@@ -262,9 +244,9 @@ const SearchInterface = () => {
               <button
                 onClick={clearFilters}
                 className={`w-full py-2 px-4 rounded-lg shadow-sm transition-colors duration-200 ${darkMode
-                  ? "bg-gray-700 hover:bg-gray-600 text-white"
-                  : "bg-white hover:bg-gray-100 text-gray-800"} 
-                  border ${darkMode ? "border-gray-600" : "border-gray-200"}`}
+                  ? "bg-transparent hover:bg-transparent text-orange-400 border-orange-400 drop-shadow-[0_0_8px_rgba(251,146,60,0.7)] hover:drop-shadow-[0_0_12px_rgba(251,146,60,0.9)] hover:text-orange-300 hover:border-orange-300"
+                  : "bg-white hover:bg-gray-100 text-gray-800 border-gray-200"} 
+                  border`}
               >
                 Limpiar filtros
               </button>
@@ -275,19 +257,34 @@ const SearchInterface = () => {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className={`w-72 h-72 rounded-lg shadow-sm border relative transition-transform ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"}`}
+                    className={`w-72 h-72 rounded-lg shadow-sm border relative transition-transform ${darkMode 
+                      ? "bg-gray-800 border-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.7)]" 
+                      : "bg-white border-gray-200"}`}
                   >
                     <div className="p-4">
-                      <h3 className={`font-semibold text-lg mb-2 text-center ${darkMode ? "text-white" : "text-black"}`}>
+                      <h3 className={`font-semibold text-lg mb-2 text-center ${darkMode 
+                        ? "text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.7)]" 
+                        : "text-black"}`}>
                         {product.career}
                       </h3>
-                      <h4 className={`mb-4 text-center ${darkMode ? "text-white" : "text-gray-600"}`}>
+                      <h4 className={`mb-4 text-center ${darkMode 
+                        ? "text-fuchsia-400 drop-shadow-[0_0_8px_rgba(232,121,249,0.7)]" 
+                        : "text-gray-600"}`}>
                         {product.subject}
                       </h4>
-                      <h4 className={`mb-4 text-center ${darkMode ? "text-white" : "text-gray-600"}`}>
-                        {product.type} {product.year}
+                      <h4 className="mb-4 text-center">
+                        <span className={`${darkMode 
+                          ? "text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]" 
+                          : "text-gray-600"}`}>
+                          {product.type}
+                        </span>{" "}
+                        <span className={`${darkMode 
+                          ? "text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.7)]" 
+                          : "text-gray-600"}`}>
+                          {product.year}
+                        </span>
                       </h4>
-                      <h4 className={`mb-4 text-center ${darkMode ? "text-white" : "text-gray-600"}`}>
+                      <h4 className={`mb-4 text-center ${darkMode ? "text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.7)]" : "text-gray-600"}`}>
                         {product.teacher}
                       </h4>
                       <div className="relative">
@@ -296,15 +293,18 @@ const SearchInterface = () => {
                             const dropdown = document.getElementById(`dropdown-${product.id}`);
                             dropdown.classList.toggle('hidden');
                           }}
-                          className={`w-full text-center px-2 py-1 rounded ${darkMode ? "text-white hover:bg-gray-700" : "text-gray-600 hover:bg-gray-100"
-                            }`}
+                          className={`w-full text-center px-2 py-1 rounded ${darkMode 
+                            ? "bg-transparent text-green-400 hover:bg-transparent hover:text-green-400 hover:border-green-400 hover:drop-shadow-[0_0_8px_rgba(74,222,128,0.7)] border border-green-400" 
+                            : "text-gray-600 hover:bg-gray-100"
+                          }`}
                         >
                           Contenidos
                         </button>
                         <ul
                           id={`dropdown-${product.id}`}
-                          className={`hidden absolute z-50 w-full mt-1 py-1 rounded-lg shadow-lg transform translate-y-0 ${darkMode ? "bg-gray-800 border border-gray-700" : "bg-white border border-gray-200"
-                            }`}
+                          className={`hidden absolute z-50 w-full mt-1 py-1 rounded-lg shadow-lg transform translate-y-0 ${darkMode 
+                            ? "bg-gray-800 border border-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.7)]" 
+                            : "bg-white border border-gray-200"}`}
                           style={{
                             maxHeight: '200px',
                             overflowY: 'auto',
@@ -326,14 +326,22 @@ const SearchInterface = () => {
                         </ul>
                       </div>
                       <div className="inline-flex items-center mt-4 w-full">
-                        <span className={`text-lg font-bold flex-grow text-center ml-10 ${darkMode ? "text-amber-400" : "text-blue-600"}`}>
+                        <span className={`text-lg font-bold flex-grow text-center ml-10 ${darkMode 
+                          ? "text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.7)]" 
+                          : "text-black"}`}>
                           CLP${product.price}
                         </span>
                         <button
-                          className="p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
+                          className={`p-2 rounded-full ${darkMode 
+                            ? 'bg-transparent border-2 border-green-400 hover:border-green-500 drop-shadow-[0_0_8px_rgba(74,222,128,0.7)]' 
+                            : 'bg-black text-white hover:bg-gray-800'
+                          } focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 mt-4`}
                           aria-label="Add to cart"
                         >
-                          <AiOutlineShoppingCart className="text-xl" />
+                          <AiOutlineShoppingCart className={`text-xl ${darkMode 
+                            ? 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.7)]'
+                            : 'text-white'
+                          }`} />
                         </button>
                       </div>
                     </div>
