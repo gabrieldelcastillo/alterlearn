@@ -25,6 +25,7 @@ module.exports = {
         'slide-in-left': 'slideInLeft 0.5s ease-out',
         'bounce-in': 'bounceIn 0.5s cubic-bezier(0.36, 0, 0.66, -0.56)',
         'pop': 'pop 0.3s ease-out',
+        'snake': 'snake 20s linear infinite',
       },
       keyframes: {
         "loop-scroll-right": {
@@ -66,6 +67,23 @@ module.exports = {
           '0%': { transform: 'scale(0.95)' },
           '50%': { transform: 'scale(1.02)' },
           '100%': { transform: 'scale(1)' },
+        },
+        snake: {
+          '0%': {
+            transform: 'translate(var(--start-x), var(--start-y)) rotate(calc(var(--direction) * 90deg))',
+          },
+          '25%': {
+            transform: 'translate(calc(var(--start-x) + 25vw), calc(var(--start-y) + 25vh)) rotate(calc((var(--direction) + 1) * 90deg))',
+          },
+          '50%': {
+            transform: 'translate(calc(var(--start-x) + 50vw), calc(var(--start-y) + 50vh)) rotate(calc((var(--direction) + 2) * 90deg))',
+          },
+          '75%': {
+            transform: 'translate(calc(var(--start-x) + 25vw), calc(var(--start-y) + 75vh)) rotate(calc((var(--direction) + 3) * 90deg))',
+          },
+          '100%': {
+            transform: 'translate(var(--start-x), var(--start-y)) rotate(calc((var(--direction) + 4) * 90deg))',
+          },
         },
       },
     },

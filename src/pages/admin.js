@@ -1,37 +1,58 @@
 import React, { useState } from "react";
 import { FiUser, FiBook, FiCalendar, FiFileText, FiCheckCircle, FiXCircle, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import Header from "../components/Header";
+import AdminBackground from "../components/admin/AdminBackground";
 
 const DocumentInterface = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
   const [requests] = useState([
     {
-      id: 1,
+      userId: 1,
       career: "Ingeniería Civil",
       subject: "Cálculo Diferencial",
       type: "Certamen (sin solución)",
       year: "2024",
-      username: "john_doe"
+      teacher: "Juan Pérez",
+      contents: ["límites", "derivadas"],
+      username: "john_doe",
+      email: "john_doe@example.com",
+      date: "2024-11-05",
+      size: "4.1 MB",
+      pages: 6
     },
     {
-      id: 2,
+      userId: 2,
       career: "Medicina",
       subject: "Anatomía I",
       type: "Apuntes",
       year: "2024",
-      username: "jane_smith"
+      teacher: "Ana López",
+      contents: ["Huesos", "músculos", "órganos"],
+      username: "jane_smith",
+      email: "jane_smith@example.com",
+      date: "2024-02-15",
+      size: "2.5 MB",
+      pages: 3
     },
     {
-      id: 3,
+      userId: 3,
       career: "Ingeniería Civil",
       subject: "Física Mecánica",
-      type: "Control",
+      type: "Control (con solución)",
       year: "2024",
-      username: "mike_wilson"
+      teacher: "Oscar Aravena",
+      contents: ["Cinemática", "Dinámica", "Estática"],
+      username: "mike_wilson",
+      email: "mike_wilson@example.com",
+      date: "2024-08-11",
+      size: "1.2 MB",
+      pages: 1
     }
   ]);
 
   const [selectedDocument, setSelectedDocument] = useState({
-    title: "Advanced Data Structures Implementation",
-    author: "John Doe",
+    username: "John Doe",
     date: "2024-02-15",
     format: "PDF",
     size: "2.5 MB",
@@ -41,12 +62,15 @@ const DocumentInterface = () => {
 
   const handleRowClick = (request) => {
     setSelectedDocument({
-      title: `${request.subject} ${request.type}`,
-      author: request.username,
-      date: new Date().toISOString().split("T")[0],
-      format: "PDF",
-      size: "2.5 MB",
-      pages: Math.floor(Math.random() * 20) + 1,
+      career: request.career,
+      subject: request.subject,
+      type: request.type,
+      year: request.year,
+      teacher: request.teacher,
+      contents: request.contents.join(", "),
+      date: request.date,
+      size: request.size,
+      pages: request.pages,
       currentPage: 1
     });
   };
@@ -66,134 +90,109 @@ const DocumentInterface = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-gray-100">
-      <div className="w-full md:w-1/3 p-4 bg-white shadow-lg overflow-y-auto">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre de usuario</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Carrera</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Asignatura</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Año</th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {requests.map((request) => (
-                <tr 
-                  key={request.id} 
-                  className="hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-                  onClick={() => handleRowClick(request)}
-                >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{request.username}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{request.career}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{request.subject}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{request.year}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{request.type}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+      <AdminBackground darkMode={darkMode} />
+      <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className={`lg:w-7/12 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg overflow-hidden`}>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className={darkMode ? 'bg-gray-700' : 'bg-gray-50'}>
+                  <tr>
+                    <th scope="col" className={`px-6 py-4 text-left text-sm font-semibold ${darkMode ? 'text-gray-200' : 'text-gray-600'}`}>ID Usuario</th>
+                    <th scope="col" className={`px-6 py-4 text-left text-sm font-semibold ${darkMode ? 'text-gray-200' : 'text-gray-600'}`}>Nombre de Usuario</th>
+                    <th scope="col" className={`px-6 py-4 text-left text-sm font-semibold ${darkMode ? 'text-gray-200' : 'text-gray-600'}`}>Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {requests.map((request) => (
+                    <tr
+                      key={request.userId}
+                      className={`${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'} cursor-pointer border-b ${
+                        darkMode ? 'border-gray-700' : 'border-gray-100'
+                      } last:border-b-0`}
+                      onClick={() => handleRowClick(request)}
+                    >
+                      <td className={`px-6 py-4 text-sm ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{request.userId}</td>
+                      <td className={`px-6 py-4 text-sm ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{request.username}</td>
+                      <td className={`px-6 py-4 text-sm ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>{request.email}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-      <div className="w-full md:w-1/3 p-4 bg-gray-50 border-x border-gray-200">
-        <div className="h-full flex flex-col">
-          <div className="flex-grow">
-            <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
-              <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-5/6 mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-full mb-4"></div>
-                <div className="h-4 bg-gray-200 rounded w-4/5"></div>
+          <div className="lg:w-5/12">
+            <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-xl shadow-lg p-6 space-y-6`}>
+              <button className={`w-full flex items-center justify-center gap-2 ${
+                darkMode 
+                  ? 'bg-transparent border-2 border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)] hover:shadow-[0_0_20px_rgba(59,130,246,0.6)]' 
+                  : 'bg-black hover:bg-gray-900 shadow-md hover:shadow-lg'
+              } ${darkMode ? 'text-blue-400' : 'text-white'} py-3 px-6 rounded-lg transition-all duration-200 font-medium`}>
+                <FiFileText className={`w-5 h-5 ${darkMode ? 'text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.9)]' : 'text-white'}`} />
+                <span className={darkMode ? 'drop-shadow-[0_0_8px_rgba(59,130,246,0.9)]' : ''}>Descargar Archivo</span>
+              </button>
+
+              <div className="grid grid-cols-1 gap-4">
+                {[
+                  { label: "Carrera", value: selectedDocument.career, icon: "🎓" },
+                  { label: "Asignatura", value: selectedDocument.subject, icon: "📚" },
+                  { label: "Tipo", value: selectedDocument.type, icon: "📄" },
+                  { label: "Año", value: selectedDocument.year, icon: "📅" },
+                  { label: "Profesor", value: selectedDocument.teacher, icon: "👨‍🏫" },
+                  { label: "Contenidos", value: selectedDocument.contents, icon: "📝" },
+                  { label: "Fecha", value: selectedDocument.date, icon: "📆" },
+                  { label: "Tamaño", value: selectedDocument.size, icon: "💾" },
+                  { label: "Páginas", value: selectedDocument.pages, icon: "📃" },
+                ].map((item, index) => (
+                  <div 
+                    key={index} 
+                    className={`flex items-center p-4 ${
+                      darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-50 hover:bg-gray-100'
+                    } rounded-lg transition-colors transform hover:scale-102 hover:shadow-md`}
+                  >
+                    <div className="flex items-center flex-1">
+                      <span className="text-xl mr-3">{item.icon}</span>
+                      <span className={`${
+                        darkMode 
+                          ? 'text-gray-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]' 
+                          : 'text-gray-600'
+                      } font-medium`}>
+                        {item.label}
+                      </span>
+                    </div>
+                    <span className={`${
+                      darkMode 
+                        ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]'
+                        : 'text-gray-800'
+                    }`}>
+                      {item.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex gap-4 pt-6">
+                <button className={`flex-1 flex items-center justify-center gap-2 ${
+                  darkMode 
+                    ? 'bg-transparent border-2 border-green-500 shadow-[0_0_15px_rgba(74,222,128,0.5)] hover:shadow-[0_0_20px_rgba(74,222,128,0.6)]' 
+                    : 'bg-green-500 hover:bg-green-600 shadow-md hover:shadow-lg'
+                } ${darkMode ? 'text-green-400' : 'text-white'} py-3 px-6 rounded-lg transition-all duration-200 font-medium`}>
+                  <FiCheckCircle className={`w-5 h-5 ${darkMode ? 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.9)]' : ''}`} />
+                  <span className={darkMode ? 'drop-shadow-[0_0_8px_rgba(74,222,128,0.9)]' : ''}>Aceptar</span>
+                </button>
+                <button className={`flex-1 flex items-center justify-center gap-2 ${
+                  darkMode 
+                    ? 'bg-transparent border-2 border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)] hover:shadow-[0_0_20px_rgba(239,68,68,0.6)]' 
+                    : 'bg-red-500 hover:bg-red-600 shadow-md hover:shadow-lg'
+                } ${darkMode ? 'text-red-400' : 'text-white'} py-3 px-6 rounded-lg transition-all duration-200 font-medium`}>
+                  <FiXCircle className={`w-5 h-5 ${darkMode ? 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.9)]' : ''}`} />
+                  <span className={darkMode ? 'drop-shadow-[0_0_8px_rgba(239,68,68,0.9)]' : ''}>Rechazar</span>
+                </button>
               </div>
             </div>
-          </div>
-          <div className="mt-auto pt-4 flex items-center justify-center gap-4">
-            <button
-              onClick={handlePreviousPage}
-              disabled={selectedDocument.currentPage === 1}
-              className="flex items-center justify-center p-2 rounded-full bg-blue-500 text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors"
-              aria-label="Previous page"
-            >
-              <FiChevronLeft size={24} />
-            </button>
-            <span className="text-gray-700 font-medium">
-              Página {selectedDocument.currentPage} of {selectedDocument.pages}
-            </span>
-            <button
-              onClick={handleNextPage}
-              disabled={selectedDocument.currentPage === selectedDocument.pages}
-              className="flex items-center justify-center p-2 rounded-full bg-blue-500 text-white disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors"
-              aria-label="Next page"
-            >
-              <FiChevronRight size={24} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full md:w-1/3 p-4 bg-white shadow-lg flex flex-col justify-center">
-        <div className="space-y-4">
-          <h3 className="text-xl font-semibold mb-4 text-gray-700">Información del Archivo</h3>
-          <div className="space-y-4 mb-8">
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Fecha</span>
-              <span className="font-medium">{selectedDocument.date}</span>
-            </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Formato</span>
-              <span className="font-medium">{selectedDocument.format}</span>
-            </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Tamaño</span>
-              <span className="font-medium">{selectedDocument.size}</span>
-            </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Páginas</span>
-              <span className="font-medium">{selectedDocument.pages}</span>
-            </div>
-          </div>
-          <h3 className="text-xl font-semibold mb-4 text-gray-700">Información del recurso</h3>
-          <div className="space-y-4 mb-8">
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Nombre de usuario</span>
-              <span className="font-medium">{selectedDocument.author}</span>
-            </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Carrera</span>
-              <span className="font-medium">{requests.find(r => r.username === selectedDocument.author)?.career || ""}</span>
-            </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Asignatura</span>
-              <span className="font-medium">{requests.find(r => r.username === selectedDocument.author)?.subject || ""}</span>
-            </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Año</span>
-              <span className="font-medium">{requests.find(r => r.username === selectedDocument.author)?.year || ""}</span>
-            </div>
-            <div className="flex justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-gray-600">Tipo</span>
-              <span className="font-medium">{requests.find(r => r.username === selectedDocument.author)?.type || ""}</span>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <button
-              className="flex-1 flex items-center justify-center gap-2 bg-green-500 text-white py-3 px-4 rounded-lg hover:bg-green-600 transition-colors duration-200"
-              aria-label="Accept document"
-            >
-              <FiCheckCircle />
-              Aceptar
-            </button>
-            <button
-              className="flex-1 flex items-center justify-center gap-2 bg-red-500 text-white py-3 px-4 rounded-lg hover:bg-red-600 transition-colors duration-200"
-              aria-label="Reject document"
-            >
-              <FiXCircle />
-              Rechazar
-            </button>
           </div>
         </div>
       </div>
